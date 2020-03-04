@@ -49,4 +49,11 @@ public interface BacklogMapper {
      * @return 未结束的待办事项列表
      */
     List<Backlog> getUnFinishedBacklogListByEpicId(Map<String, String> paramMap);
+
+    /**
+     * 删除待办事项
+     *
+     * @param backlogId 待办事项ID
+     */
+    void deleteBacklog(String backlogId);
 }

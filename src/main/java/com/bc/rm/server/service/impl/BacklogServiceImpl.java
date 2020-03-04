@@ -85,4 +85,14 @@ public class BacklogServiceImpl implements BacklogService {
         return backlogMapper.getUnFinishedBacklogListByEpicId(paramMap);
     }
 
+
+    /**
+     * 删除待办事项
+     *
+     * @param backlogId 待办事项ID
+     */
+    @Override
+    public void deleteBacklog(String backlogId) {
+        backlogMapper.deleteBacklog(backlogId);
+    }
 }

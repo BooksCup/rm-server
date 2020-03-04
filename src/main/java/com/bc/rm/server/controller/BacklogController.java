@@ -3,6 +3,7 @@ package com.bc.rm.server.controller;
 import com.bc.rm.server.cons.Constant;
 import com.bc.rm.server.entity.Backlog;
 import com.bc.rm.server.entity.User;
+import com.bc.rm.server.enums.ResponseMsg;
 import com.bc.rm.server.service.BacklogService;
 import com.bc.rm.server.service.UserService;
 import com.github.pagehelper.PageInfo;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 /**
- * 产品代办事项控制器
+ * 产品待办事项控制器
  *
  * @author zhou
  */
@@ -35,17 +36,21 @@ public class BacklogController {
     /**
      * 新增待办事项
      *
+     * @param type          类型 "0":story "1":bug
      * @param title         标题
      * @param statusId      状态ID
      * @param currentUserId 当前处理人ID
      * @param moduleId      模块ID
      * @param sprintId      迭代ID
+     * @param isLinkSprint  是否关联迭代的开始和结束时间 "0":否 "1":是
+     * @param beginDate     预计开始时间
+     * @param endDate       预计结束时间
      * @param priorityOrder 优先级顺序
      * @param priority      优先级
      * @param importance    重要程度
      * @return ResponseEntity<Backlog>
      */
-    @ApiOperation(value = "新增代办事项", notes = "新增代办事项")
+    @ApiOperation(value = "新增待办事项", notes = "新增待办事项")
     @PostMapping(value = "")
     public ResponseEntity<Backlog> addBacklog(
             @RequestParam String type,
@@ -85,7 +90,7 @@ public class BacklogController {
      * @param limit 每个分页大小
      * @return ResponseEntity
      */
-    @ApiOperation(value = "获取代办事项列表", notes = "获取代办事项列表")
+    @ApiOperation(value = "获取待办事项列表", notes = "获取待办事项列表")
     @GetMapping(value = "")
     public ResponseEntity<PageInfo<Backlog>> getBacklogList(
             @RequestParam Integer page,
@@ -93,5 +98,29 @@ public class BacklogController {
         logger.info("[getBacklogList] page: " + page + ", limit: " + limit);
         PageInfo<Backlog> pageInfo = backlogService.getBacklogListByPageInfo(page, limit);
         return new ResponseEntity<>(pageInfo, HttpStatus.OK);
+    }
+
+    /**
+     * 删除待办事项列表
+     *
+     * @param backlogId 待办事项ID
+     * @return ResponseEntity
+     */
+    @ApiOperation(value = "删除待办事项列表", notes = "删除待办事项列表")
+    @DeleteMapping(value = "/{backlogId}")
+    public ResponseEntity<String> deleteBacklog(@PathVariable String backlogId) {
+
+        logger.info("[deleteBacklog] backlogId: " + backlogId);
+        ResponseEntity<String> responseEntity;
+        try {
+            backlogService.deleteBacklog(backlogId);
+            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_BACKLOG_SUCCESS.getResponseCode(),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("deleteBacklog error. errorMsg: " + e.getMessage());
+            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_BACKLOG_ERROR.getResponseCode(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
     }
 }

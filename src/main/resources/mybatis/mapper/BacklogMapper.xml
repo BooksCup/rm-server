@@ -105,4 +105,9 @@
         left join t_module m on b.backlog_module_id = m.module_id
         where b.backlog_id = #{backlogId}
     </select>
+
+    <delete id="deleteBacklog" parameterType="String">
+        delete from t_backlog
+        where backlog_id = #{backlogId}
+    </delete>
 </mapper>
