@@ -98,10 +98,11 @@
     </select>
 
     <select id="getBacklogById" resultMap="Backlog">
-        select b.*, sp.sprint_name, st.status_name
+        select b.*, sp.sprint_name, st.status_name, m.module_name
         from t_backlog b
         left join t_sprint sp on b.backlog_sprint_id = sp.sprint_id
         left join t_status st on b.backlog_status_id = st.status_id
+        left join t_module m on b.backlog_module_id = m.module_id
         where b.backlog_id = #{backlogId}
     </select>
 </mapper>
