@@ -6,8 +6,10 @@
         <id column="backlog_id" property="id" jdbcType="VARCHAR"/>
         <result column="backlog_title" property="title" jdbcType="VARCHAR"/>
 
+        <result column="backlog_current_user_id" property="currentUserId" jdbcType="VARCHAR"/>
         <result column="backlog_current_user_name" property="currentUserName" jdbcType="VARCHAR"/>
 
+        <result column="backlog_sprint_id" property="sprintId" jdbcType="VARCHAR"/>
         <result column="sprint_name" property="sprintName" jdbcType="VARCHAR"/>
 
         <result column="backlog_module_id" property="moduleId" jdbcType="VARCHAR"/>
@@ -21,6 +23,11 @@
         <result column="backlog_importance" property="importance" jdbcType="VARCHAR"/>
 
         <result column="backlog_create_time" property="createTime" jdbcType="VARCHAR"/>
+
+        <result column="backlog_link_sprint" property="isLinkSprint" jdbcType="VARCHAR"/>
+        <result column="backlog_begin_date" property="beginDate" jdbcType="VARCHAR"/>
+        <result column="backlog_end_date" property="endDate" jdbcType="VARCHAR"/>
+
     </resultMap>
 
     <insert id="addBacklog" parameterType="com.bc.rm.server.entity.Backlog">
@@ -110,4 +117,22 @@
         delete from t_backlog
         where backlog_id = #{backlogId}
     </delete>
+
+    <update id="updateBacklog" parameterType="com.bc.rm.server.entity.Backlog">
+        update t_backlog
+        set
+        backlog_module_id = #{moduleId},
+        backlog_sprint_id = #{sprintId},
+        backlog_status_id = #{statusId},
+        backlog_current_user_id = #{currentUserId},
+        backlog_current_user_name = #{currentUserName},
+        backlog_title = #{title},
+        backlog_priority_order = #{priorityOrder},
+        backlog_priority = #{priority},
+        backlog_importance = #{importance},
+        backlog_link_sprint = #{isLinkSprint},
+        backlog_begin_date = #{beginDate},
+        backlog_end_date = #{endDate}
+        where backlog_id = #{id}
+    </update>
 </mapper>

@@ -17,6 +17,16 @@ public class Constant {
      */
     public static final String USER_STATUS_ACTIVATE = "0";
 
+    /**
+     * 待办事项类型-STORY
+     */
+    public static final String BACKLOG_TYPE_STORY = "0";
+
+    /**
+     * 待办事项类型-BUG
+     */
+    public static final String BACKLOG_TYPE_BUG = "1";
+
     // 是否关联迭代
     /**
      * 否

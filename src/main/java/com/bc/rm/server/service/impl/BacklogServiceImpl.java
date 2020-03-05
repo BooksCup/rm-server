@@ -95,4 +95,9 @@ public class BacklogServiceImpl implements BacklogService {
     public void deleteBacklog(String backlogId) {
         backlogMapper.deleteBacklog(backlogId);
     }
+
+
+    public void updateBacklog(Backlog backlog){
+        backlogMapper.updateBacklog(backlog);
+    }
 }

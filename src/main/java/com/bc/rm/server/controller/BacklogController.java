@@ -123,4 +123,38 @@ public class BacklogController {
         }
         return responseEntity;
     }
+
+    @ApiOperation(value = "编辑待办事项", notes = "编辑待办事项")
+    @PutMapping(value = "/{backlogId}")
+    public ResponseEntity<Backlog> updateBacklog(
+            @PathVariable String backlogId,
+            @RequestParam String title,
+            @RequestParam String statusId,
+            @RequestParam String currentUserId,
+            @RequestParam(required = false) String moduleId,
+            @RequestParam(required = false) String sprintId,
+            @RequestParam(required = false, defaultValue = Constant.IS_LINK_SPRINT_NO) String isLinkSprint,
+            @RequestParam(required = false) String beginDate,
+            @RequestParam(required = false) String endDate,
+            @RequestParam(required = false, defaultValue = "1") String priorityOrder,
+            @RequestParam(defaultValue = Constant.PRIORITY_MEDIUM) String priority,
+            @RequestParam(defaultValue = Constant.IMPORTANCE_COMMON) String importance) {
+        ResponseEntity<Backlog> responseEntity;
+        try {
+            Backlog backlog = new Backlog(Constant.BACKLOG_TYPE_STORY, title, statusId, currentUserId, moduleId,
+                    sprintId, isLinkSprint, beginDate, endDate, priorityOrder, priority, importance);
+            backlog.setId(backlogId);
+            User currentUser = userService.getUserByUserId(currentUserId);
+            backlog.setCurrentUserName(currentUser.getName());
+            logger.info("[updateBacklog], data: " + backlog);
+            backlogService.updateBacklog(backlog);
+
+            backlog = backlogService.getBacklogById(backlog.getId());
+            responseEntity = new ResponseEntity<>(backlog, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("updateBacklog error: " + e.getMessage());
+            responseEntity = new ResponseEntity<>(new Backlog(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
 }

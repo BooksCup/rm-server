@@ -56,4 +56,6 @@ public interface BacklogMapper {
      * @param backlogId 待办事项ID
      */
     void deleteBacklog(String backlogId);
+
+    void updateBacklog(Backlog backlog);
 }
