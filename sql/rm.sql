@@ -32,7 +32,9 @@ CREATE TABLE `t_backlog` (
   `backlog_priority_order` int(5) DEFAULT NULL COMMENT '优先级顺序(目前存在1-10种优先级)',
   `backlog_priority` varchar(2) DEFAULT NULL COMMENT '优先级 "0":"低" "1":"中" "2":"高"',
   `backlog_importance` varchar(2) DEFAULT NULL COMMENT '重要程度 "0":"提示" "1":"一般" "2":"重要" "3":"关键"',
-  `backlog_deadline` varchar(20) DEFAULT NULL COMMENT '截止时间',
+  `backlog_link_sprint` varchar(1) DEFAULT NULL COMMENT '开始结束日期是否联动迭代 "0":"否" "1":"是"',
+  `backlog_begin_date` varchar(20) DEFAULT NULL COMMENT '预计开始日期',
+  `backlog_end_date` varchar(20) DEFAULT NULL COMMENT '预计结束日期',
   `backlog_create_time` varchar(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`backlog_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

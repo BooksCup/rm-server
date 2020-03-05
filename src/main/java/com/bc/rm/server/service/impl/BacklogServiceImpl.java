@@ -96,8 +96,13 @@ public class BacklogServiceImpl implements BacklogService {
         backlogMapper.deleteBacklog(backlogId);
     }
 
-
-    public void updateBacklog(Backlog backlog){
+    /**
+     * 编辑待办事项
+     *
+     * @param backlog 待办事项
+     */
+    @Override
+    public void updateBacklog(Backlog backlog) {
         backlogMapper.updateBacklog(backlog);
     }
 }

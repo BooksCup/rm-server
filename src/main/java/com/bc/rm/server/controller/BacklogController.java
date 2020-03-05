@@ -124,6 +124,22 @@ public class BacklogController {
         return responseEntity;
     }
 
+    /**
+     * 编辑待办事项
+     * @param backlogId
+     * @param title 标题
+     * @param statusId 状态ID
+     * @param currentUserId 当前处理人ID
+     * @param moduleId 模块ID
+     * @param sprintId 迭代ID
+     * @param isLinkSprint 是否关联迭代的开始和结束时间 "0":否 "1":是
+     * @param beginDate 预计开始时间
+     * @param endDate 预计结束时间
+     * @param priorityOrder 优先级顺序
+     * @param priority 优先级
+     * @param importance 重要程度
+     * @return ResponseEntity
+     */
     @ApiOperation(value = "编辑待办事项", notes = "编辑待办事项")
     @PutMapping(value = "/{backlogId}")
     public ResponseEntity<Backlog> updateBacklog(
