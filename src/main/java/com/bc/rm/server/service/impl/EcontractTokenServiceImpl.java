@@ -57,13 +57,18 @@ public class EcontractTokenServiceImpl implements EcontractTokenService {
             ApiBaseResult<AccessToken> apiBaseResult = JSON.parseObject(result, typeReference);
             logger.info("code: " + apiBaseResult.getCode());
             logger.info("message: " + apiBaseResult.getMessage());
-            logger.info("expiresIn: " + apiBaseResult.getData().getExpiresIn());
-            logger.info("token: " + apiBaseResult.getData().getToken());
-            logger.info("refreshToken: " + apiBaseResult.getData().getRefreshToken());
-            econtractToken.setContent(apiBaseResult.getData().getToken());
-            econtractToken.setExpiresIn(apiBaseResult.getData().getExpiresIn());
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            econtractToken.setExpiryTime(CommonUtil.formatTimeStamp(econtractToken.getExpiresIn(), formatter));
+            if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
+                econtractToken.setSuccessFlag(true);
+                logger.info("expiresIn: " + apiBaseResult.getData().getExpiresIn());
+                logger.info("token: " + apiBaseResult.getData().getToken());
+                logger.info("refreshToken: " + apiBaseResult.getData().getRefreshToken());
+                econtractToken.setContent(apiBaseResult.getData().getToken());
+                econtractToken.setExpiresIn(apiBaseResult.getData().getExpiresIn());
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                econtractToken.setExpiryTime(CommonUtil.formatTimeStamp(econtractToken.getExpiresIn(), formatter));
+            } else {
+                econtractToken.setSuccessFlag(false);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

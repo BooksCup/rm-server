@@ -17,6 +17,11 @@ public class EcontractToken {
     private String expiryTime;
     private String createTime;
 
+    /**
+     * 是否创建成功
+     */
+    private boolean successFlag = false;
+
     public EcontractToken() {
 
     }
@@ -90,5 +95,13 @@ public class EcontractToken {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public boolean isSuccessFlag() {
+        return successFlag;
+    }
+
+    public void setSuccessFlag(boolean successFlag) {
+        this.successFlag = successFlag;
     }
 }

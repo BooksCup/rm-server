@@ -74,4 +74,9 @@ public class Constant {
      * 重要程度-关键
      */
     public static final String IMPORTANCE_KEY = "3";
+
+    /**
+     * 电子合同服务成功返回码
+     */
+    public static final String E_CONTRACT_SUCCESS_RESULT_CODE = "0";
 }
