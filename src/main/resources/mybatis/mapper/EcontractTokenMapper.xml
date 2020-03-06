@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bc.rm.server.mapper.EcontractTokenMapper">
+
+    <resultMap id="EcontractToken" type="com.bc.rm.server.entity.econtract.EcontractToken">
+        <id column="token_id" property="id" jdbcType="VARCHAR"/>
+        <result column="token_app_id" property="appId" jdbcType="VARCHAR"/>
+        <result column="token_secret" property="secret" jdbcType="VARCHAR"/>
+        <result column="token_grantType" property="grantType" jdbcType="VARCHAR"/>
+        <result column="token_content" property="content" jdbcType="VARCHAR"/>
+        <result column="token_expires_in" property="expiresIn" jdbcType="BIGINT"/>
+        <result column="token_expiry_time" property="expiryTime" jdbcType="VARCHAR"/>
+        <result column="token_create_time" property="createTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="addEcontractToken" parameterType="com.bc.rm.server.entity.econtract.EcontractToken">
+        insert into t_e_contract_token
+        (
+            token_id,
+            token_app_id,
+            token_secret,
+            token_grantType,
+            token_content,
+            token_expires_in,
+            token_expiry_time,
+            token_create_time
+        )
+        values
+        (
+            #{id},
+            #{appId},
+            #{secret},
+            #{grantType},
+            #{content},
+            #{expiresIn},
+            #{expiryTime},
+            now()
+        )
+    </insert>
+
+    <update id="updateEcontractToken" parameterType="com.bc.rm.server.entity.econtract.EcontractToken">
+        update t_e_contract_token
+        set
+        token_app_id = #{appId},
+        token_secret = #{secret},
+        token_grantType = #{grantType},
+        token_content = #{content},
+        token_expires_in = #{expiresIn},
+        token_expiry_time = #{expiryTime}
+        where token_id = #{id}
+    </update>
+
+    <select id="getEcontractTokenList" resultMap="EcontractToken">
+        select *
+          from t_e_contract_token
+    </select>
+</mapper>

@@ -45,4 +45,15 @@ public class CommonUtil {
         return String.valueOf(rs);
     }
 
+    /**
+     * 格式化时间戳
+     *
+     * @param timestamp 时间戳
+     * @param formatter 格式
+     * @return 格式化后的时间戳
+     */
+    public static String formatTimeStamp(long timestamp, SimpleDateFormat formatter) {
+        Date date = new Date(timestamp);
+        return formatter.format(date);
+    }
 }
