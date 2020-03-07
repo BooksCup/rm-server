@@ -48,8 +48,7 @@ public class EcontractController {
             econtractToken = econtractTokenService.generateToken(econtractToken);
             if (!econtractToken.isSuccessFlag()) {
                 // 云签章端返回异常
-                return new ResponseEntity<>(econtractToken, HttpStatus.INTERNAL_SERVER_ERROR);
-
+                return new ResponseEntity<>(econtractToken, HttpStatus.BAD_REQUEST);
             }
 
             List<EcontractToken> econtractTokenList = econtractTokenService.getEcontractTokenList();

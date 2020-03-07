@@ -44,6 +44,7 @@ public class EcontractTokenServiceImpl implements EcontractTokenService {
      */
     @Override
     public EcontractToken generateToken(EcontractToken econtractToken) {
+
         String eSignHost = eSignUrl;
         String path = "/v1/oauth2/access_token";
         Map<String, String> headerMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
@@ -63,6 +64,10 @@ public class EcontractTokenServiceImpl implements EcontractTokenService {
             ApiBaseResult<AccessToken> apiBaseResult = JSON.parseObject(result, typeReference);
             logger.info("code: " + apiBaseResult.getCode());
             logger.info("message: " + apiBaseResult.getMessage());
+
+            econtractToken.setApiResultCode(apiBaseResult.getCode());
+            econtractToken.setApiResultMessage(apiBaseResult.getMessage());
+
             if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
                 econtractToken.setSuccessFlag(true);
                 logger.info("expiresIn: " + apiBaseResult.getData().getExpiresIn());

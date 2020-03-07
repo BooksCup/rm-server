@@ -17,10 +17,14 @@ public class EcontractToken {
     private String expiryTime;
     private String createTime;
 
+    // temp field
     /**
      * 是否创建成功
      */
     private boolean successFlag = false;
+
+    private String apiResultCode;
+    private String apiResultMessage;
 
     public EcontractToken() {
 
@@ -103,5 +107,21 @@ public class EcontractToken {
 
     public void setSuccessFlag(boolean successFlag) {
         this.successFlag = successFlag;
+    }
+
+    public String getApiResultCode() {
+        return apiResultCode;
+    }
+
+    public void setApiResultCode(String apiResultCode) {
+        this.apiResultCode = apiResultCode;
+    }
+
+    public String getApiResultMessage() {
+        return apiResultMessage;
+    }
+
+    public void setApiResultMessage(String apiResultMessage) {
+        this.apiResultMessage = apiResultMessage;
     }
 }
