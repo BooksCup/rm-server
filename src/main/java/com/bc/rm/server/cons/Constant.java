@@ -13,6 +13,11 @@ public class Constant {
     public static final int DEFAULT_HASH_MAP_CAPACITY = 16;
 
     /**
+     * https
+     */
+    public static final String PROTOCOL_HTTPS_PREFIX = "https://";
+
+    /**
      * 用户状态:激活
      */
     public static final String USER_STATUS_ACTIVATE = "0";

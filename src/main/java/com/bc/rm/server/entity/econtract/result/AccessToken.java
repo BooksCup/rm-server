@@ -1,5 +1,10 @@
 package com.bc.rm.server.entity.econtract.result;
 
+/**
+ * token
+ *
+ * @author zhou
+ */
 public class AccessToken {
     private Long expiresIn;
     private String token;

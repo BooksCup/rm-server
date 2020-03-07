@@ -3,7 +3,6 @@ package com.bc.rm.server.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.bc.rm.server.cons.Constant;
-import com.bc.rm.server.controller.BacklogController;
 import com.bc.rm.server.entity.econtract.EcontractToken;
 import com.bc.rm.server.entity.econtract.result.AccessToken;
 import com.bc.rm.server.entity.econtract.result.ApiBaseResult;
@@ -30,12 +29,19 @@ import java.util.Map;
  */
 @Service("econtractTokenService")
 public class EcontractTokenServiceImpl implements EcontractTokenService {
-    private static final Logger logger = LoggerFactory.getLogger(BacklogController.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(EcontractTokenServiceImpl.class);
 
     private String eSignUrl = "https://smlopenapi.esign.cn";
     @Resource
     private EcontractTokenMapper econtractTokenMapper;
 
+    /**
+     * 调用第三方服务 生成token
+     *
+     * @param econtractToken token入参
+     * @return 带有token和有效时间的完整token bean
+     */
     @Override
     public EcontractToken generateToken(EcontractToken econtractToken) {
         String eSignHost = eSignUrl;
@@ -75,16 +81,31 @@ public class EcontractTokenServiceImpl implements EcontractTokenService {
         return econtractToken;
     }
 
+    /**
+     * 新增token
+     *
+     * @param econtractToken token
+     */
     @Override
     public void addEcontractToken(EcontractToken econtractToken) {
         econtractTokenMapper.addEcontractToken(econtractToken);
     }
 
+    /**
+     * 获取token列表
+     *
+     * @return token列表
+     */
     @Override
     public List<EcontractToken> getEcontractTokenList() {
         return econtractTokenMapper.getEcontractTokenList();
     }
 
+    /**
+     * 修改token
+     *
+     * @param econtractToken token
+     */
     @Override
     public void updateEcontractToken(EcontractToken econtractToken) {
         econtractTokenMapper.updateEcontractToken(econtractToken);

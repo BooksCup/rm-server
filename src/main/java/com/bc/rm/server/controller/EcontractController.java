@@ -67,6 +67,11 @@ public class EcontractController {
         return responseEntity;
     }
 
+    /**
+     * 获取token
+     *
+     * @return ResponseEntity<EcontractToken>
+     */
     @ApiOperation(value = "获取token", notes = "获取token")
     @GetMapping(value = "/token")
     public ResponseEntity<EcontractToken> getEcontractToken() {

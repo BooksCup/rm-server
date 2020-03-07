@@ -1,5 +1,11 @@
 package com.bc.rm.server.entity.econtract.result;
 
+/**
+ * 电子合同基础返回类
+ *
+ * @param <T> 泛型返回实体
+ * @author zhou
+ */
 public class ApiBaseResult<T> {
     private String code;
     private String message;
