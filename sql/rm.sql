@@ -39,6 +39,38 @@ CREATE TABLE `t_backlog` (
   PRIMARY KEY (`backlog_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+/*Table structure for table `t_e_contract_account` */
+
+DROP TABLE IF EXISTS `t_e_contract_account`;
+
+CREATE TABLE `t_e_contract_account` (
+  `account_id` varchar(32) NOT NULL COMMENT '云签章个人账号表主键',
+  `account_third_party_user_id` varchar(32) DEFAULT NULL COMMENT '用户唯一标识，可传入第三方平台的个人用户id、证件号、手机号、邮箱等，如果设置则作为账号唯一性字段，相同信息不可重复创建。（个人用户与机构的唯一标识不可重复）',
+  `account_name` varchar(200) DEFAULT NULL COMMENT '姓名（非实名签署时必填）',
+  `account_id_type` varchar(50) DEFAULT NULL COMMENT '证件类型,默认CRED_PSN_CH_IDCARD',
+  `account_id_number` varchar(100) DEFAULT NULL COMMENT '证件号（非实名签署时必填）',
+  `account_mobile` varchar(50) DEFAULT NULL COMMENT '手机号码，默认空，手机号为空时无法使用短信意愿认证',
+  `account_mail` varchar(50) DEFAULT NULL COMMENT '邮箱地址，默认空',
+  `account_create_time` varchar(20) DEFAULT NULL COMMENT '账号创建时间',
+  PRIMARY KEY (`account_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Table structure for table `t_e_contract_token` */
+
+DROP TABLE IF EXISTS `t_e_contract_token`;
+
+CREATE TABLE `t_e_contract_token` (
+  `token_id` varchar(32) NOT NULL COMMENT 'token表主键',
+  `token_app_id` varchar(100) DEFAULT NULL COMMENT 'appId',
+  `token_secret` varchar(100) DEFAULT NULL COMMENT 'secret',
+  `token_grantType` varchar(100) DEFAULT NULL COMMENT 'grantType',
+  `token_content` varchar(500) DEFAULT NULL COMMENT 'token内容',
+  `token_expires_in` bigint(20) DEFAULT NULL COMMENT 'token到期时间戳',
+  `token_expiry_time` varchar(20) DEFAULT NULL COMMENT 'token到期时间',
+  `token_create_time` varchar(20) DEFAULT NULL COMMENT 'token创建时间',
+  PRIMARY KEY (`token_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 /*Table structure for table `t_epic` */
 
 DROP TABLE IF EXISTS `t_epic`;
