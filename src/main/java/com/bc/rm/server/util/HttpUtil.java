@@ -59,8 +59,7 @@ public class HttpUtil {
      */
     public static HttpResponse doGet(String host, String path,
                                      Map<String, String> headers,
-                                     Map<String, String> querys)
-            throws Exception {
+                                     Map<String, String> querys) throws Exception {
         HttpClient httpClient = wrapClient(host);
 
         HttpGet request = new HttpGet(buildUrl(host, path, querys));
@@ -76,18 +75,16 @@ public class HttpUtil {
      *
      * @param host
      * @param path
-     * @param method
      * @param headers
      * @param querys
      * @param bodys
      * @return
      * @throws Exception
      */
-    public static HttpResponse doPost(String host, String path, String method,
+    public static HttpResponse doPost(String host, String path,
                                       Map<String, String> headers,
                                       Map<String, String> querys,
-                                      Map<String, String> bodys)
-            throws Exception {
+                                      Map<String, String> bodys) throws Exception {
         HttpClient httpClient = wrapClient(host);
 
         HttpPost request = new HttpPost(buildUrl(host, path, querys));
@@ -96,7 +93,7 @@ public class HttpUtil {
         }
 
         if (bodys != null) {
-            List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
+            List<NameValuePair> nameValuePairList = new ArrayList<>();
 
             for (String key : bodys.keySet()) {
                 nameValuePairList.add(new BasicNameValuePair(key, bodys.get(key)));
@@ -114,18 +111,16 @@ public class HttpUtil {
      *
      * @param host
      * @param path
-     * @param method
      * @param headers
      * @param querys
      * @param body
      * @return
      * @throws Exception
      */
-    public static HttpResponse doPost(String host, String path, String method,
+    public static HttpResponse doPost(String host, String path,
                                       Map<String, String> headers,
                                       Map<String, String> querys,
-                                      String body)
-            throws Exception {
+                                      String body) throws Exception {
         HttpClient httpClient = wrapClient(host);
 
         HttpPost request = new HttpPost(buildUrl(host, path, querys));
@@ -145,14 +140,13 @@ public class HttpUtil {
      *
      * @param host
      * @param path
-     * @param method
      * @param headers
      * @param querys
      * @param body
      * @return
      * @throws Exception
      */
-    public static HttpResponse doPost(String host, String path, String method,
+    public static HttpResponse doPost(String host, String path,
                                       Map<String, String> headers,
                                       Map<String, String> querys,
                                       byte[] body)

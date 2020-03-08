@@ -19,10 +19,10 @@ import java.util.List;
  * @author zhou
  */
 @RestController
-@RequestMapping("/econtract")
-public class EcontractController {
+@RequestMapping("/econtractToken")
+public class EcontractTokenController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ModuleController.class);
+    private static final Logger logger = LoggerFactory.getLogger(EcontractTokenController.class);
 
     @Resource
     private EcontractTokenService econtractTokenService;
@@ -36,7 +36,7 @@ public class EcontractController {
      * @return ResponseEntity<EcontractToken>
      */
     @ApiOperation(value = "生成token", notes = "生成token")
-    @PostMapping(value = "/token")
+    @PostMapping(value = "/")
     public ResponseEntity<EcontractToken> addEcontractToken(
             @RequestParam String appId,
             @RequestParam String secret,
@@ -72,7 +72,7 @@ public class EcontractController {
      * @return ResponseEntity<EcontractToken>
      */
     @ApiOperation(value = "获取token", notes = "获取token")
-    @GetMapping(value = "/token")
+    @GetMapping(value = "/")
     public ResponseEntity<EcontractToken> getEcontractToken() {
         ResponseEntity<EcontractToken> responseEntity;
         EcontractToken econtractToken;

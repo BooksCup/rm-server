@@ -80,6 +80,8 @@ public class Constant {
      */
     public static final String IMPORTANCE_KEY = "3";
 
+    public static final String E_SIGN_BASE_URL = "https://smlopenapi.esign.cn";
+
     /**
      * 电子合同服务成功返回码
      */

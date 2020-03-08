@@ -32,7 +32,6 @@ public class EcontractTokenServiceImpl implements EcontractTokenService {
 
     private static final Logger logger = LoggerFactory.getLogger(EcontractTokenServiceImpl.class);
 
-    private String eSignUrl = "https://smlopenapi.esign.cn";
     @Resource
     private EcontractTokenMapper econtractTokenMapper;
 
@@ -45,7 +44,7 @@ public class EcontractTokenServiceImpl implements EcontractTokenService {
     @Override
     public EcontractToken generateToken(EcontractToken econtractToken) {
 
-        String eSignHost = eSignUrl;
+        String eSignHost = Constant.E_SIGN_BASE_URL;
         String path = "/v1/oauth2/access_token";
         Map<String, String> headerMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
         Map<String, String> queryMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
