@@ -15,6 +15,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -84,6 +85,22 @@ public class EcontractTokenServiceImpl implements EcontractTokenService {
         }
         return econtractToken;
     }
+
+    /**
+     * 获取accessToken(从DB)
+     *
+     * @return accessToken
+     */
+    @Override
+    public EcontractToken getAccessTokenFromDB() {
+        List<EcontractToken> econtractTokenList = getEcontractTokenList();
+        if (CollectionUtils.isEmpty(econtractTokenList)) {
+            return null;
+        } else {
+            return econtractTokenList.get(0);
+        }
+    }
+
 
     /**
      * 新增token

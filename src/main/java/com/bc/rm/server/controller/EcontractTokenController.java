@@ -36,7 +36,7 @@ public class EcontractTokenController {
      * @return ResponseEntity<EcontractToken>
      */
     @ApiOperation(value = "生成token", notes = "生成token")
-    @PostMapping(value = "/")
+    @PostMapping(value = "")
     public ResponseEntity<EcontractToken> addEcontractToken(
             @RequestParam String appId,
             @RequestParam String secret,
@@ -72,7 +72,7 @@ public class EcontractTokenController {
      * @return ResponseEntity<EcontractToken>
      */
     @ApiOperation(value = "获取token", notes = "获取token")
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     public ResponseEntity<EcontractToken> getEcontractToken() {
         ResponseEntity<EcontractToken> responseEntity;
         EcontractToken econtractToken;

@@ -20,6 +20,13 @@ public interface EcontractTokenService {
     EcontractToken generateToken(EcontractToken econtractToken);
 
     /**
+     * 获取accessToken(从DB)
+     *
+     * @return accessToken
+     */
+    EcontractToken getAccessTokenFromDB();
+
+    /**
      * 新增token
      *
      * @param econtractToken token

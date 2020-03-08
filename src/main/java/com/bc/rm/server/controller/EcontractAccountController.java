@@ -1,7 +1,9 @@
 package com.bc.rm.server.controller;
 
 import com.bc.rm.server.entity.econtract.EcontractAccount;
+import com.bc.rm.server.entity.econtract.EcontractToken;
 import com.bc.rm.server.service.EcontractAccountService;
+import com.bc.rm.server.service.EcontractTokenService;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -24,11 +26,11 @@ public class EcontractAccountController {
     private static final Logger logger = LoggerFactory.getLogger(EcontractAccountController.class);
 
     @Resource
+    private EcontractTokenService econtractTokenService;
+
+    @Resource
     private EcontractAccountService econtractAccountService;
 
-    /**
-     * 创建个人账号
-     */
     /**
      * 创建个人账号
      *
@@ -42,7 +44,7 @@ public class EcontractAccountController {
      * @return ResponseEntity<EcontractAccount>
      */
     @ApiOperation(value = "创建个人账号", notes = "创建个人账号")
-    @PostMapping(value = "/")
+    @PostMapping(value = "")
     public ResponseEntity<EcontractAccount> addEcontractAccount(
             @RequestParam String thirdPartyUserId,
             @RequestParam String name,
@@ -54,7 +56,8 @@ public class EcontractAccountController {
         EcontractAccount econtractAccount = new EcontractAccount(
                 thirdPartyUserId, name, idType, idNumber, mobile, email);
         try {
-            econtractAccount = econtractAccountService.createEcontractAccount(econtractAccount);
+            EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
+            econtractAccount = econtractAccountService.createEcontractAccount(econtractToken, econtractAccount);
             if (StringUtils.isEmpty(econtractAccount.getId())) {
                 return new ResponseEntity<>(econtractAccount, HttpStatus.BAD_REQUEST);
             }

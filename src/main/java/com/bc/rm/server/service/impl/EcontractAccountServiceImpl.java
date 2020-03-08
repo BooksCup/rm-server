@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.bc.rm.server.cons.Constant;
 import com.bc.rm.server.entity.econtract.EcontractAccount;
+import com.bc.rm.server.entity.econtract.EcontractToken;
 import com.bc.rm.server.entity.econtract.result.Account;
 import com.bc.rm.server.entity.econtract.result.ApiBaseResult;
 import com.bc.rm.server.mapper.EcontractAccountMapper;
@@ -34,17 +35,24 @@ public class EcontractAccountServiceImpl implements EcontractAccountService {
     /**
      * 新增电子合同个人账号
      *
-     * @param econtractAccount 电子合同个人账号
+     * @param econtractToken   token
+     * @param econtractAccount 个人账号
      */
     @Override
-    public EcontractAccount createEcontractAccount(EcontractAccount econtractAccount) {
+    public EcontractAccount createEcontractAccount(EcontractToken econtractToken, EcontractAccount econtractAccount) {
         String eSignHost = Constant.E_SIGN_BASE_URL;
         String path = "/v1/accounts/createByThirdPartyUserId";
+
+        // 消息头，主要包含鉴权信息
         Map<String, String> headerMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
         headerMap.put("Content-Type", "application/json");
-        headerMap.put("X-Tsign-Open-App-Id", "4438775919");
-        headerMap.put("X-Tsign-Open-Token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJnSWQiOiI4N2I4YmJhNGY2N2U0ZjRiODQ3Njc2M2FmNTRjZGYxYSIsImFwcElkIjoiNDQzODc3NTkxOSIsIm9JZCI6ImJiZDNlYTExZWY0ZDQyNmI4NTYzNDhmYjg1MDYxM2ZmIiwidGltZXN0YW1wIjoxNTgzODAzODk1Njg3fQ.9bhGSW6jyCLElByznRAiqSxOAequ9589mL1vmbdDaMU");
+        headerMap.put("X-Tsign-Open-App-Id", econtractToken.getAppId());
+        headerMap.put("X-Tsign-Open-Token", econtractToken.getContent());
+
+        // 查询参数
         Map<String, String> queryMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+
+        // 消息体
         Map<String, String> bodyMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
         bodyMap.put("thirdPartyUserId", econtractAccount.getThirdPartyUserId());
         bodyMap.put("name", econtractAccount.getName());
@@ -53,6 +61,7 @@ public class EcontractAccountServiceImpl implements EcontractAccountService {
         bodyMap.put("mobile", econtractAccount.getMobile());
         bodyMap.put("mail", econtractAccount.getMail());
         String body = JSON.toJSONString(bodyMap);
+        
         try {
             HttpResponse response = HttpUtil.doPost(eSignHost, path, headerMap, queryMap, body);
             String result = EntityUtils.toString(response.getEntity(), "utf-8");
