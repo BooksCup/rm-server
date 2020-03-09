@@ -14,4 +14,11 @@ public interface EcontractAccountMapper {
      * @param econtractAccount 电子合同个人账号
      */
     void addEcontractAccount(EcontractAccount econtractAccount);
+
+    /**
+     * 修改电子合同个人账号
+     *
+     * @param econtractAccount 电子合同个人账号
+     */
+    void updateEcontractAccount(EcontractAccount econtractAccount);
 }

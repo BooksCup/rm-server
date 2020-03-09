@@ -12,7 +12,8 @@
             account_id_number,
             account_mobile,
             account_mail,
-            account_create_time
+            account_create_time,
+            account_modify_time
         )
         values
         (
@@ -23,7 +24,33 @@
             #{idNumber},
             #{mobile},
             #{mail},
+            now(),
             now()
         )
     </insert>
+
+    <update id="updateEcontractAccount" parameterType="com.bc.rm.server.entity.econtract.EcontractAccount">
+        update t_e_contract_account
+        set
+        <if test="thirdPartyUserId != null and thirdPartyUserId !=''">
+            account_third_party_user_id = #{thirdPartyUserId},
+        </if>
+        <if test="name != null and name !=''">
+            account_name = #{name},
+        </if>
+        <if test="idType != null and idType !=''">
+            account_id_type = #{idType},
+        </if>
+        <if test="idNumber != null and idNumber !=''">
+            account_id_number = #{idNumber},
+        </if>
+        <if test="mobile != null and mobile !=''">
+            account_mobile = #{mobile},
+        </if>
+        <if test="mail != null and mail !=''">
+            account_mail = #{mail},
+        </if>
+        account_modify_time = now()
+        where account_id = #{id}
+    </update>
 </mapper>

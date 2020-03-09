@@ -14,6 +14,11 @@ public class EcontractAccount {
     private String mobile;
     private String mail;
 
+    /**
+     * 是否修改成功
+     */
+    private boolean successFlag = false;
+
     private String apiResultCode;
     private String apiResultMessage;
 
@@ -89,6 +94,14 @@ public class EcontractAccount {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public boolean isSuccessFlag() {
+        return successFlag;
+    }
+
+    public void setSuccessFlag(boolean successFlag) {
+        this.successFlag = successFlag;
     }
 
     public String getApiResultCode() {

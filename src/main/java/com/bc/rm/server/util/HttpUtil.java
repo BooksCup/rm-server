@@ -170,14 +170,13 @@ public class HttpUtil {
      *
      * @param host
      * @param path
-     * @param method
      * @param headers
      * @param querys
      * @param body
      * @return
      * @throws Exception
      */
-    public static HttpResponse doPut(String host, String path, String method,
+    public static HttpResponse doPut(String host, String path,
                                      Map<String, String> headers,
                                      Map<String, String> querys,
                                      String body)
