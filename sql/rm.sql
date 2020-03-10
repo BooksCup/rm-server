@@ -52,6 +52,7 @@ CREATE TABLE `t_e_contract_account` (
   `account_mobile` varchar(50) DEFAULT NULL COMMENT '手机号码，默认空，手机号为空时无法使用短信意愿认证',
   `account_mail` varchar(50) DEFAULT NULL COMMENT '邮箱地址，默认空',
   `account_create_time` varchar(20) DEFAULT NULL COMMENT '账号创建时间',
+  `account_modify_time` varchar(20) DEFAULT NULL COMMENT '账号修改时间',
   PRIMARY KEY (`account_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
