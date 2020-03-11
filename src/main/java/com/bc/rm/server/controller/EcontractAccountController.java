@@ -2,6 +2,7 @@ package com.bc.rm.server.controller;
 
 import com.bc.rm.server.entity.econtract.EcontractAccount;
 import com.bc.rm.server.entity.econtract.EcontractToken;
+import com.bc.rm.server.entity.econtract.result.Account;
 import com.bc.rm.server.service.EcontractAccountService;
 import com.bc.rm.server.service.EcontractTokenService;
 import io.swagger.annotations.ApiOperation;
@@ -109,4 +110,26 @@ public class EcontractAccountController {
         return responseEntity;
     }
 
+
+    /**
+     * 查询个人账号(按照账号ID查询)
+     *
+     * @param accountId 个人账号ID
+     * @return ResponseEntity<Account>
+     */
+    @ApiOperation(value = "按照ID查询个人账号", notes = "按照ID查询个人账号")
+    @GetMapping(value = "/{accountId}")
+    public ResponseEntity<Account> getAccountByAccountId(@PathVariable String accountId) {
+        ResponseEntity<Account> responseEntity;
+        try {
+            EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
+            // 调用api查询电子合同个人账号
+            Account account = econtractAccountService.getAccountByAccountId(econtractToken, accountId);
+            responseEntity = new ResponseEntity<>(account, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("getAccountByAccountId error: " + e.getMessage());
+            responseEntity = new ResponseEntity<>(new Account(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
 }

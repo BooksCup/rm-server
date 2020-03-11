@@ -125,6 +125,14 @@ public class EcontractAccountServiceImpl implements EcontractAccountService {
         return econtractAccount;
     }
 
+    /**
+     * 查询个人账号(按照账号ID查询)
+     *
+     * @param econtractToken accessToken
+     * @param accountId      账号ID
+     * @return 个人账号
+     */
+    @Override
     public Account getAccountByAccountId(EcontractToken econtractToken, String accountId) {
         String eSignHost = Constant.E_SIGN_BASE_URL;
         String path = "/v1/accounts/" + accountId;
@@ -179,7 +187,7 @@ public class EcontractAccountServiceImpl implements EcontractAccountService {
         bodyMap.put("idType", econtractAccount.getIdType());
         bodyMap.put("idNumber", econtractAccount.getIdNumber());
         bodyMap.put("mobile", econtractAccount.getMobile());
-        bodyMap.put("mail", econtractAccount.getMail());
+        bodyMap.put("email", econtractAccount.getEmail());
         return bodyMap;
     }
 }

@@ -12,7 +12,7 @@ public class EcontractAccount {
     private String idType;
     private String idNumber;
     private String mobile;
-    private String mail;
+    private String email;
 
     /**
      * 是否修改成功
@@ -31,13 +31,13 @@ public class EcontractAccount {
                             String idType,
                             String idNumber,
                             String mobile,
-                            String mail) {
+                            String email) {
         this.thirdPartyUserId = thirdPartyUserId;
         this.name = name;
         this.idType = idType;
         this.idNumber = idNumber;
         this.mobile = mobile;
-        this.mail = mail;
+        this.email = email;
     }
 
     public String getId() {
@@ -88,12 +88,12 @@ public class EcontractAccount {
         this.mobile = mobile;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public boolean isSuccessFlag() {

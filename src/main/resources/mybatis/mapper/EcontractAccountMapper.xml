@@ -47,8 +47,8 @@
         <if test="mobile != null and mobile !=''">
             account_mobile = #{mobile},
         </if>
-        <if test="mail != null and mail !=''">
-            account_mail = #{mail},
+        <if test="email != null and email !=''">
+            account_mail = #{email},
         </if>
         account_modify_time = now()
         where account_id = #{id}
