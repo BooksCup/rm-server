@@ -82,6 +82,8 @@ public class Constant {
 
     public static final String E_SIGN_BASE_URL = "https://smlopenapi.esign.cn";
 
+    public static final String FEI_E_YUN_PRINTER_URL = "http://api.feieyun.cn/Api/Open/";
+
     /**
      * 电子合同服务成功返回码
      */

@@ -158,6 +158,38 @@ public class EcontractAccountServiceImpl implements EcontractAccountService {
         return new Account();
     }
 
+    public boolean deleteAccountByAccountId(EcontractToken econtractToken, String accountId) {
+        boolean deleteFlag;
+        String eSignHost = Constant.E_SIGN_BASE_URL;
+        String path = "/v1/accounts/" + accountId;
+        try {
+            Map<String, String> headerMap = createHeader(econtractToken);
+            Map<String, String> queryMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            HttpResponse response = HttpUtil.doDelete(eSignHost, path, headerMap, queryMap);
+            String result = EntityUtils.toString(response.getEntity(), "utf-8");
+            logger.info("result: " + result);
+            TypeReference<ApiBaseResult<?>> typeReference = new TypeReference<ApiBaseResult<?>>() {
+            };
+            ApiBaseResult<?> apiBaseResult = JSON.parseObject(result, typeReference);
+            logger.info("code: " + apiBaseResult.getCode());
+            logger.info("message: " + apiBaseResult.getMessage());
+            if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
+                // api删除成功
+                // 删除db里的数据
+
+                deleteFlag = true;
+            } else{
+                deleteFlag = false;
+            }
+        } catch (Exception e) {
+            logger.error("deleteAccountByAccountId error: ");
+            e.printStackTrace();
+            deleteFlag = false;
+        }
+        return deleteFlag;
+
+    }
+
 
     /**
      * 创建请求头

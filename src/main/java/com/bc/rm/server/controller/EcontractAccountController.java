@@ -132,4 +132,23 @@ public class EcontractAccountController {
         }
         return responseEntity;
     }
+
+
+    /**
+     * 删除个人账号(按照账号ID删除)
+     *
+     * @param accountId
+     * @return
+     */
+    @ApiOperation(value = "按照账号ID删除/注销个人账号", notes = "按照账号ID删除/注销个人账号")
+    @DeleteMapping(value = "/{accountId}")
+    public ResponseEntity<String> deleteAccountByAccountId(@PathVariable String accountId) {
+        ResponseEntity<String> responseEntity;
+        try {
+            responseEntity = new ResponseEntity<>("", HttpStatus.OK);
+        } catch (Exception e) {
+            responseEntity = new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
 }
