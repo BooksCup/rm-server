@@ -96,6 +96,48 @@ CREATE TABLE `t_module` (
   PRIMARY KEY (`module_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+/*Table structure for table `t_printer` */
+
+DROP TABLE IF EXISTS `t_printer`;
+
+CREATE TABLE `t_printer` (
+  `printer_id` varchar(32) NOT NULL COMMENT '打印机表主键',
+  `printer_sn` varchar(100) DEFAULT NULL COMMENT '打印机编号SN',
+  `printer_key` varchar(100) DEFAULT NULL COMMENT '打印机识别码KEY(存于底部标签)',
+  `printer_name` varchar(200) DEFAULT NULL COMMENT '打印机名称，如地址、店铺名等，便于管理',
+  `printer_data_card_no` varchar(200) DEFAULT NULL COMMENT '流量卡号码',
+  `printer_create_time` varchar(20) DEFAULT NULL COMMENT '打印机添加时间',
+  PRIMARY KEY (`printer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Table structure for table `t_printer_config` */
+
+DROP TABLE IF EXISTS `t_printer_config`;
+
+CREATE TABLE `t_printer_config` (
+  `config_id` varchar(32) NOT NULL COMMENT '打印机配置表主键',
+  `config_user` varchar(100) DEFAULT NULL COMMENT 'USER',
+  `config_ukey` varchar(100) DEFAULT NULL COMMENT 'UKEY',
+  `config_create_time` varchar(20) DEFAULT NULL COMMENT '配置创建时间',
+  PRIMARY KEY (`config_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Table structure for table `t_printer_order` */
+
+DROP TABLE IF EXISTS `t_printer_order`;
+
+CREATE TABLE `t_printer_order` (
+  `order_id` varchar(32) NOT NULL COMMENT '打印订单表',
+  `order_no` varchar(100) DEFAULT NULL COMMENT '服务器返回订单ID',
+  `order_printer_sn` varchar(100) DEFAULT NULL COMMENT '打印机编号',
+  `order_content` varchar(5000) DEFAULT NULL COMMENT '打印内容',
+  `order_ret_code` varchar(10) DEFAULT NULL COMMENT '订单返回码',
+  `order_ret_message` varchar(200) DEFAULT NULL COMMENT '订单返回消息',
+  `order_times` varchar(5) DEFAULT NULL COMMENT '打印联数/次数',
+  `order_create_time` varchar(20) DEFAULT NULL COMMENT '服务器接收订单时间',
+  PRIMARY KEY (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 /*Table structure for table `t_sprint` */
 
 DROP TABLE IF EXISTS `t_sprint`;
