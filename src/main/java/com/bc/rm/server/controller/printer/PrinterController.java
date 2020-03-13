@@ -3,7 +3,9 @@ package com.bc.rm.server.controller.printer;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.bc.rm.server.cons.Constant;
+import com.bc.rm.server.entity.econtract.result.ApiBaseResult;
 import com.bc.rm.server.entity.printer.Printer;
+import com.bc.rm.server.entity.printer.PrinterConfig;
 import com.bc.rm.server.entity.printer.result.PrinterApiBaseResult;
 import com.bc.rm.server.entity.printer.result.PrinterResult;
 import com.bc.rm.server.service.PrinterService;
@@ -16,10 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -35,13 +34,18 @@ import java.util.Map;
 public class PrinterController {
     private static final Logger logger = LoggerFactory.getLogger(PrinterController.class);
 
-    private static final String USER = "BooksCup@163.com";
-    private static final String UKEY = "1";
-
     @Resource
     private PrinterService printerService;
 
-
+    /**
+     * 添加打印机
+     *
+     * @param sn         打印机编号SN
+     * @param key        打印机识别码KEY(存于底部标签)
+     * @param name       打印机名称，如地址、店铺名等，便于管理
+     * @param dataCardNo 流量卡号码
+     * @return ResponseEntity<Printer>
+     */
     @ApiOperation(value = "添加打印机", notes = "添加打印机")
     @PostMapping(value = "")
     public ResponseEntity<Printer> addPrinter(
@@ -52,13 +56,14 @@ public class PrinterController {
         ResponseEntity<Printer> responseEntity;
         Printer printer = new Printer(sn, key, name, dataCardNo);
         try {
+            PrinterConfig printerConfig = printerService.getPrinterConfig();
             String host = Constant.FEI_E_YUN_PRINTER_URL;
             Map<String, String> headerMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
             Map<String, String> queryMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
-            queryMap.put("user", USER);
+            queryMap.put("user", printerConfig.getUser());
             String stime = String.valueOf(System.currentTimeMillis() / 1000);
             queryMap.put("stime", stime);
-            queryMap.put("sig", signature(USER, UKEY, stime));
+            queryMap.put("sig", signature(printerConfig.getUser(), printerConfig.getUkey(), stime));
             queryMap.put("apiname", "Open_printerAddlist");
             String printContent = sn + "#" + key + "#" + name + "#" + dataCardNo;
             queryMap.put("printerContent", printContent);
@@ -111,47 +116,65 @@ public class PrinterController {
     }
 
 
-    @ApiOperation(value = "添加打印机", notes = "添加打印机")
-    @PostMapping(value = "/label")
-    public ResponseEntity<String> printLabelMsg() {
-        ResponseEntity<String> responseEntity;
+    /**
+     *标签机打印订单
+     * @param printerSn 打印机编号SN
+     * @param content 打印内容
+     * @param times 打印次数
+     * @return
+     */
+    @ApiOperation(value = "标签机打印订单", notes = "标签机打印订单")
+    @PostMapping(value = "/{printerSn}/label")
+    public ResponseEntity<PrinterApiBaseResult<String>> printLabelMsg(
+            @PathVariable String printerSn,
+            @RequestParam String content,
+            @RequestParam(required = false, defaultValue = "1") String times) {
+        ResponseEntity<PrinterApiBaseResult<String>> responseEntity;
         try {
-
-            String content;
-            content = "<TEXT x=\"100\"  y=\"50\" r=\"90\">http://www.dzist.com</QR>";
-
-
+            PrinterConfig printerConfig = printerService.getPrinterConfig();
             String host = Constant.FEI_E_YUN_PRINTER_URL;
-            String path = "";
-            Map<String, String> headerMap = new HashMap<>();
-            Map<String, String> queryMap = new HashMap<>();
-            queryMap.put("user", USER);
+            Map<String, String> headerMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            Map<String, String> queryMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            queryMap.put("user", printerConfig.getUser());
             String stime = String.valueOf(System.currentTimeMillis() / 1000);
             queryMap.put("stime", stime);
-            queryMap.put("sig", signature(USER, UKEY, stime));
+            queryMap.put("sig", signature(printerConfig.getUser(), printerConfig.getUkey(), stime));
             queryMap.put("apiname", "Open_printLabelMsg");
 
-
-            queryMap.put("sn", "960201040");
+            queryMap.put("sn", printerSn);
             queryMap.put("content", content);
-            queryMap.put("times", "1");
+            queryMap.put("times", times);
 
-            Map<String, String> bodyMap = new HashMap<>();
+            Map<String, String> bodyMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
 
-            HttpResponse response = HttpUtil.doPost(host, path, headerMap, queryMap, bodyMap);
+            HttpResponse response = HttpUtil.doPost(host, null, headerMap, queryMap, bodyMap);
             String result = EntityUtils.toString(response.getEntity(), "utf-8");
             logger.info("result: " + result);
+            TypeReference<PrinterApiBaseResult<String>> typeReference = new TypeReference<PrinterApiBaseResult<String>>() {
+            };
+            PrinterApiBaseResult<String> apiBaseResult = JSON.parseObject(result, typeReference);
+            String orderNo = apiBaseResult.getData();
+            logger.info("orderNo: " + orderNo);
 
-            responseEntity = new ResponseEntity<>(result, HttpStatus.OK);
+            responseEntity = new ResponseEntity<>(apiBaseResult, HttpStatus.OK);
         } catch (Exception e) {
-            responseEntity = new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+            logger.error("printLabelMsg error: " + e.getMessage());
+            responseEntity = new ResponseEntity<>(new PrinterApiBaseResult<>(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }
 
-    //生成签名字符串
-    private static String signature(String USER, String UKEY, String STIME) {
-        String s = DigestUtils.sha1Hex(USER + UKEY + STIME);
-        return s;
+    /**
+     * 生成签名字符串
+     *
+     * @param user  user
+     * @param ukey  ukey
+     * @param stime 时间戳
+     * @return 签名字符串
+     */
+    private static String signature(String user, String ukey, String stime) {
+        String sig = DigestUtils.sha1Hex(user + ukey + stime);
+        return sig;
     }
 }

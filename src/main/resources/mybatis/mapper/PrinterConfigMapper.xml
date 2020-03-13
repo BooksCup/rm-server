@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bc.rm.server.mapper.PrinterConfigMapper">
+
+    <resultMap id="PrinterConfig" type="com.bc.rm.server.entity.printer.PrinterConfig">
+        <id column="config_id" property="id" jdbcType="VARCHAR"/>
+        <result column="config_user" property="user" jdbcType="VARCHAR"/>
+        <result column="config_ukey" property="ukey" jdbcType="VARCHAR"/>
+        <result column="config_create_time" property="createTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getPrinterConfig" resultMap="PrinterConfig">
+        select *
+          from t_printer_config
+    </select>
+
+</mapper>
