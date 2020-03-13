@@ -133,6 +133,28 @@ public class EcontractAccountController {
         return responseEntity;
     }
 
+    /**
+     * 查询个人账号(按照第三方用户ID查询)
+     *
+     * @param thirdPartyUserId 第三方平台的用户ID
+     * @return ResponseEntity<Account>
+     */
+    @ApiOperation(value = "按照第三方用户ID查询", notes = "按照第三方用户ID查询")
+    @GetMapping(value = "/getByThirdId")
+    public ResponseEntity<Account> getAccountByThirdPartyUserId(@RequestParam String thirdPartyUserId) {
+        ResponseEntity<Account> responseEntity;
+        try {
+            EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
+            // 调用api查询电子合同个人账号
+            Account account = econtractAccountService.getAccountByThirdPartyUserId(econtractToken, thirdPartyUserId);
+            responseEntity = new ResponseEntity<>(account, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("getAccountByThirdPartyUserId error: " + e.getMessage());
+            responseEntity = new ResponseEntity<>(new Account(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
 
     /**
      * 删除个人账号(按照账号ID删除)

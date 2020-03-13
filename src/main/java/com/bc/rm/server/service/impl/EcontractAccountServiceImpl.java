@@ -158,6 +158,41 @@ public class EcontractAccountServiceImpl implements EcontractAccountService {
         return new Account();
     }
 
+    /**
+     * 查询个人账号(按照第三方用户ID查询)
+     *
+     * @param econtractToken   accessToken
+     * @param thirdPartyUserId 第三方用户ID
+     * @return 个人账号
+     */
+    @Override
+    public Account getAccountByThirdPartyUserId(EcontractToken econtractToken, String thirdPartyUserId) {
+        String eSignHost = Constant.E_SIGN_BASE_URL;
+        String path = "/v1/accounts/getByThirdId";
+        try {
+            Map<String, String> headerMap = createHeader(econtractToken);
+            Map<String, String> queryMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            queryMap.put("thirdPartyUserId", thirdPartyUserId);
+
+            HttpResponse response = HttpUtil.doGet(eSignHost, path, headerMap, queryMap);
+            String result = EntityUtils.toString(response.getEntity(), "utf-8");
+            logger.info("result: " + result);
+
+            TypeReference<ApiBaseResult<Account>> typeReference = new TypeReference<ApiBaseResult<Account>>() {
+            };
+            ApiBaseResult<Account> apiBaseResult = JSON.parseObject(result, typeReference);
+            logger.info("code: " + apiBaseResult.getCode());
+            logger.info("message: " + apiBaseResult.getMessage());
+
+            if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
+                return apiBaseResult.getData();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Account();
+    }
+
     public boolean deleteAccountByAccountId(EcontractToken econtractToken, String accountId) {
         boolean deleteFlag;
         String eSignHost = Constant.E_SIGN_BASE_URL;
@@ -178,7 +213,7 @@ public class EcontractAccountServiceImpl implements EcontractAccountService {
                 // 删除db里的数据
 
                 deleteFlag = true;
-            } else{
+            } else {
                 deleteFlag = false;
             }
         } catch (Exception e) {
@@ -189,7 +224,6 @@ public class EcontractAccountServiceImpl implements EcontractAccountService {
         return deleteFlag;
 
     }
-
 
     /**
      * 创建请求头

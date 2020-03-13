@@ -3,7 +3,6 @@ package com.bc.rm.server.controller.printer;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.bc.rm.server.cons.Constant;
-import com.bc.rm.server.entity.econtract.result.ApiBaseResult;
 import com.bc.rm.server.entity.printer.Printer;
 import com.bc.rm.server.entity.printer.PrinterConfig;
 import com.bc.rm.server.entity.printer.PrinterOrder;

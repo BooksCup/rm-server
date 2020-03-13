@@ -28,5 +28,21 @@ public interface EcontractAccountService {
      */
     EcontractAccount updateEcontractAccount(EcontractToken econtractToken, EcontractAccount econtractAccount);
 
+    /**
+     * 查询个人账号(按照账号ID查询)
+     *
+     * @param econtractToken accessToken
+     * @param accountId      账号ID
+     * @return 个人账号
+     */
     Account getAccountByAccountId(EcontractToken econtractToken, String accountId);
+
+    /**
+     * 查询个人账号(按照第三方用户ID查询)
+     *
+     * @param econtractToken   accessToken
+     * @param thirdPartyUserId 第三方用户ID
+     * @return 个人账号
+     */
+    Account getAccountByThirdPartyUserId(EcontractToken econtractToken, String thirdPartyUserId);
 }
