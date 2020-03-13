@@ -162,6 +162,9 @@ public class PrinterController {
             printerOrder.setRetMessage(apiBaseResult.getMsg());
             printerOrder.setNo(orderNo);
 
+            // 持久化到db
+            printerService.addPrinterOrder(printerOrder);
+
             responseEntity = new ResponseEntity<>(apiBaseResult, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

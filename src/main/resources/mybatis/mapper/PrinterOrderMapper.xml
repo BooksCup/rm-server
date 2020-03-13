@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bc.rm.server.mapper.PrinterOrderMapper">
+
+    <insert id="addPrinterOrder" parameterType="com.bc.rm.server.entity.printer.PrinterOrder">
+        insert into t_printer_order
+        (
+            order_id,
+            order_no,
+            order_printer_sn,
+            order_content,
+            order_ret_code,
+            order_ret_message,
+            order_times,
+            order_create_time
+        )
+        values
+        (
+            #{id},
+            #{no},
+            #{printerSn},
+            #{content},
+            #{retCode},
+            #{retMessage},
+            #{times},
+            now()
+        )
+    </insert>
+</mapper>
