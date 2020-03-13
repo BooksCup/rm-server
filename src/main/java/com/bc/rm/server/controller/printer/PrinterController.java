@@ -6,6 +6,7 @@ import com.bc.rm.server.cons.Constant;
 import com.bc.rm.server.entity.econtract.result.ApiBaseResult;
 import com.bc.rm.server.entity.printer.Printer;
 import com.bc.rm.server.entity.printer.PrinterConfig;
+import com.bc.rm.server.entity.printer.PrinterOrder;
 import com.bc.rm.server.entity.printer.result.PrinterApiBaseResult;
 import com.bc.rm.server.entity.printer.result.PrinterResult;
 import com.bc.rm.server.service.PrinterService;
@@ -115,13 +116,13 @@ public class PrinterController {
         return responseEntity;
     }
 
-
     /**
-     *标签机打印订单
+     * 标签机打印订单
+     *
      * @param printerSn 打印机编号SN
-     * @param content 打印内容
-     * @param times 打印次数
-     * @return
+     * @param content   打印内容
+     * @param times     打印次数
+     * @return ResponseEntity<PrinterApiBaseResult>
      */
     @ApiOperation(value = "标签机打印订单", notes = "标签机打印订单")
     @PostMapping(value = "/{printerSn}/label")
@@ -130,6 +131,7 @@ public class PrinterController {
             @RequestParam String content,
             @RequestParam(required = false, defaultValue = "1") String times) {
         ResponseEntity<PrinterApiBaseResult<String>> responseEntity;
+        PrinterOrder printerOrder = new PrinterOrder(printerSn, content, times);
         try {
             PrinterConfig printerConfig = printerService.getPrinterConfig();
             String host = Constant.FEI_E_YUN_PRINTER_URL;
@@ -155,6 +157,10 @@ public class PrinterController {
             PrinterApiBaseResult<String> apiBaseResult = JSON.parseObject(result, typeReference);
             String orderNo = apiBaseResult.getData();
             logger.info("orderNo: " + orderNo);
+
+            printerOrder.setRetCode(apiBaseResult.getRet());
+            printerOrder.setRetMessage(apiBaseResult.getMsg());
+            printerOrder.setNo(orderNo);
 
             responseEntity = new ResponseEntity<>(apiBaseResult, HttpStatus.OK);
         } catch (Exception e) {
