@@ -21,4 +21,11 @@ public interface EcontractAccountMapper {
      * @param econtractAccount 电子合同个人账号
      */
     void updateEcontractAccount(EcontractAccount econtractAccount);
+
+    /**
+     * 删除/注销个人账号
+     *
+     * @param accountId 账号ID
+     */
+    void deleteEcontractAccountByAccountId(String accountId);
 }

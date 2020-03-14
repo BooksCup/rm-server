@@ -193,6 +193,14 @@ public class EcontractAccountServiceImpl implements EcontractAccountService {
         return new Account();
     }
 
+    /**
+     * 删除/注销个人账号
+     *
+     * @param econtractToken accessToken
+     * @param accountId      账号ID
+     * @return true:删除成功  false:删除失败
+     */
+    @Override
     public boolean deleteAccountByAccountId(EcontractToken econtractToken, String accountId) {
         boolean deleteFlag;
         String eSignHost = Constant.E_SIGN_BASE_URL;
@@ -211,14 +219,15 @@ public class EcontractAccountServiceImpl implements EcontractAccountService {
             if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
                 // api删除成功
                 // 删除db里的数据
+                econtractAccountMapper.deleteEcontractAccountByAccountId(accountId);
 
                 deleteFlag = true;
             } else {
                 deleteFlag = false;
             }
         } catch (Exception e) {
-            logger.error("deleteAccountByAccountId error: ");
             e.printStackTrace();
+            logger.error("deleteAccountByAccountId error: " + e.getMessage());
             deleteFlag = false;
         }
         return deleteFlag;

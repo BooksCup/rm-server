@@ -22,7 +22,10 @@ public enum ResponseMsg {
     DELETE_SPRINT_ERROR("DELETE_SPRINT_ERROR", "删除迭代失败"),
 
     DELETE_BACKLOG_SUCCESS("DELETE_BACKLOG_SUCCESS", "删除待办事项成功"),
-    DELETE_BACKLOG_ERROR("DELETE_BACKLOG_ERROR", "删除待办事项失败"),;
+    DELETE_BACKLOG_ERROR("DELETE_BACKLOG_ERROR", "删除待办事项失败"),
+
+    DELETE_E_CONTRACT_ACCOUNT_SUCCESS("DELETE_E_CONTRACT_ACCOUNT_SUCCESS", "删除电子合同账户成功"),
+    DELETE_E_CONTRACT_ACCOUNT_ERROR("DELETE_E_CONTRACT_ACCOUNT_ERROR", "删除电子合同账户失败"),;
 
     ResponseMsg(String responseCode, String responseMessage) {
         this.responseCode = responseCode;

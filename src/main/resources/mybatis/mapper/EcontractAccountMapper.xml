@@ -53,4 +53,9 @@
         account_modify_time = now()
         where account_id = #{id}
     </update>
+
+    <delete id="deleteEcontractAccountByAccountId" parameterType="String">
+        delete from t_e_contract_account
+        where account_id = #{accountId}
+    </delete>
 </mapper>

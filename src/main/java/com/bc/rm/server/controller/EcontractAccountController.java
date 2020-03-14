@@ -3,6 +3,7 @@ package com.bc.rm.server.controller;
 import com.bc.rm.server.entity.econtract.EcontractAccount;
 import com.bc.rm.server.entity.econtract.EcontractToken;
 import com.bc.rm.server.entity.econtract.result.Account;
+import com.bc.rm.server.enums.ResponseMsg;
 import com.bc.rm.server.service.EcontractAccountService;
 import com.bc.rm.server.service.EcontractTokenService;
 import io.swagger.annotations.ApiOperation;
@@ -167,9 +168,14 @@ public class EcontractAccountController {
     public ResponseEntity<String> deleteAccountByAccountId(@PathVariable String accountId) {
         ResponseEntity<String> responseEntity;
         try {
-            responseEntity = new ResponseEntity<>("", HttpStatus.OK);
+            EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
+            // 调用api删除电子合同个人账号
+            econtractAccountService.deleteAccountByAccountId(econtractToken, accountId);
+            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ACCOUNT_SUCCESS.getResponseCode(),
+                    HttpStatus.OK);
         } catch (Exception e) {
-            responseEntity = new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
+            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ACCOUNT_ERROR.getResponseCode(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }
