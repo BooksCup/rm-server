@@ -160,8 +160,8 @@ public class EcontractAccountController {
     /**
      * 删除个人账号(按照账号ID删除)
      *
-     * @param accountId
-     * @return
+     * @param accountId 个人账号ID
+     * @return ResponseEntity<String>
      */
     @ApiOperation(value = "按照账号ID删除/注销个人账号", notes = "按照账号ID删除/注销个人账号")
     @DeleteMapping(value = "/{accountId}")
@@ -171,6 +171,29 @@ public class EcontractAccountController {
             EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
             // 调用api删除电子合同个人账号
             econtractAccountService.deleteAccountByAccountId(econtractToken, accountId);
+            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ACCOUNT_SUCCESS.getResponseCode(),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ACCOUNT_ERROR.getResponseCode(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
+    /**
+     * 删除/注销个人账号(按照第三方用户ID注销)
+     *
+     * @param thirdPartyUserId 第三方用户ID
+     * @return ResponseEntity<String>
+     */
+    @ApiOperation(value = "按照第三方用户ID删除/注销个人账号", notes = "按照第三方用户ID删除/注销个人账号")
+    @DeleteMapping(value = "/deleteByThirdId")
+    public ResponseEntity<String> deleteAccountByThirdPartyUserId(@RequestParam String thirdPartyUserId) {
+        ResponseEntity<String> responseEntity;
+        try {
+            EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
+            // 调用api删除电子合同个人账号
+            econtractAccountService.deleteAccountByThirdPartyUserId(econtractToken, thirdPartyUserId);
             responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ACCOUNT_SUCCESS.getResponseCode(),
                     HttpStatus.OK);
         } catch (Exception e) {

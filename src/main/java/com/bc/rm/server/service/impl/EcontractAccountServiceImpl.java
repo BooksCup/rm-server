@@ -194,7 +194,7 @@ public class EcontractAccountServiceImpl implements EcontractAccountService {
     }
 
     /**
-     * 删除/注销个人账号
+     * 删除/注销个人账号(按照账号ID注销)
      *
      * @param econtractToken accessToken
      * @param accountId      账号ID
@@ -228,6 +228,49 @@ public class EcontractAccountServiceImpl implements EcontractAccountService {
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("deleteAccountByAccountId error: " + e.getMessage());
+            deleteFlag = false;
+        }
+        return deleteFlag;
+
+    }
+
+    /**
+     * 删除/注销个人账号(按照第三方用户ID注销)
+     *
+     * @param econtractToken   accessToken
+     * @param thirdPartyUserId 第三方用户ID
+     * @return true:删除成功  false:删除失败
+     */
+    @Override
+    public boolean deleteAccountByThirdPartyUserId(EcontractToken econtractToken, String thirdPartyUserId) {
+        boolean deleteFlag;
+        String eSignHost = Constant.E_SIGN_BASE_URL;
+        String path = "/v1/accounts/deleteByThirdId";
+        try {
+            Map<String, String> headerMap = createHeader(econtractToken);
+            Map<String, String> queryMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            queryMap.put("thirdPartyUserId", thirdPartyUserId);
+
+            HttpResponse response = HttpUtil.doDelete(eSignHost, path, headerMap, queryMap);
+            String result = EntityUtils.toString(response.getEntity(), "utf-8");
+            logger.info("result: " + result);
+            TypeReference<ApiBaseResult<?>> typeReference = new TypeReference<ApiBaseResult<?>>() {
+            };
+            ApiBaseResult<?> apiBaseResult = JSON.parseObject(result, typeReference);
+            logger.info("code: " + apiBaseResult.getCode());
+            logger.info("message: " + apiBaseResult.getMessage());
+            if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
+                // api删除成功
+                // 删除db里的数据
+                econtractAccountMapper.deleteEcontractAccountByThirdPartyUserId(thirdPartyUserId);
+
+                deleteFlag = true;
+            } else {
+                deleteFlag = false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("deleteAccountByThirdPartyUserId error: " + e.getMessage());
             deleteFlag = false;
         }
         return deleteFlag;

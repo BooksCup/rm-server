@@ -23,7 +23,7 @@
             #{idType},
             #{idNumber},
             #{mobile},
-            #{mail},
+            #{email},
             now(),
             now()
         )
@@ -57,5 +57,10 @@
     <delete id="deleteEcontractAccountByAccountId" parameterType="String">
         delete from t_e_contract_account
         where account_id = #{accountId}
+    </delete>
+
+    <delete id="deleteEcontractAccountByThirdPartyUserId" parameterType="String">
+        delete from t_e_contract_account
+        where account_third_party_user_id = #{thirdPartyUserId}
     </delete>
 </mapper>

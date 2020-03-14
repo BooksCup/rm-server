@@ -47,11 +47,20 @@ public interface EcontractAccountService {
     Account getAccountByThirdPartyUserId(EcontractToken econtractToken, String thirdPartyUserId);
 
     /**
-     * 删除/注销个人账号
+     * 删除/注销个人账号(按照账号ID注销)
      *
      * @param econtractToken accessToken
      * @param accountId      账号ID
      * @return true:删除成功  false:删除失败
      */
     boolean deleteAccountByAccountId(EcontractToken econtractToken, String accountId);
+
+    /**
+     * 删除/注销个人账号(按照第三方用户ID注销)
+     *
+     * @param econtractToken   accessToken
+     * @param thirdPartyUserId 第三方用户ID
+     * @return true:删除成功  false:删除失败
+     */
+    boolean deleteAccountByThirdPartyUserId(EcontractToken econtractToken, String thirdPartyUserId);
 }
