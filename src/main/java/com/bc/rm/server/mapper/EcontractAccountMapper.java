@@ -2,6 +2,8 @@ package com.bc.rm.server.mapper;
 
 import com.bc.rm.server.entity.econtract.EcontractAccount;
 
+import java.util.Map;
+
 /**
  * 电子合同个人账号
  *
@@ -35,4 +37,6 @@ public interface EcontractAccountMapper {
      * @param thirdPartyUserId 第三方用户ID
      */
     void deleteEcontractAccountByThirdPartyUserId(String thirdPartyUserId);
+
+    void updateSignPwd(Map<String, String> paramMap);
 }

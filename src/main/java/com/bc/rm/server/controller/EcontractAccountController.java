@@ -202,4 +202,36 @@ public class EcontractAccountController {
         }
         return responseEntity;
     }
+
+    /**
+     * 设置签署密码
+     *
+     * @param accountId 账号ID
+     * @param password  签署密码
+     * @return ResponseEntity<String>
+     */
+    @ApiOperation(value = "设置签署密码", notes = "设置签署密码")
+    @PostMapping(value = "/{accountId}/setSignPwd")
+    public ResponseEntity<String> setSignPwd(@PathVariable String accountId, @RequestParam String password) {
+        ResponseEntity<String> responseEntity;
+        try {
+            EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
+            // 调用api设置签署密码
+            boolean setFlag = econtractAccountService.setSignPwd(econtractToken, accountId, password);
+            if (setFlag) {
+                // 设置成功
+                responseEntity = new ResponseEntity<>(ResponseMsg.SET_SIGN_PWD_SUCCESS.getResponseCode(),
+                        HttpStatus.OK);
+            } else {
+                // 设置失败
+                responseEntity = new ResponseEntity<>(ResponseMsg.SET_SIGN_PWD_ERROR.getResponseCode(),
+                        HttpStatus.BAD_REQUEST);
+            }
+
+        } catch (Exception e) {
+            responseEntity = new ResponseEntity<>(ResponseMsg.SET_SIGN_PWD_ERROR.getResponseCode(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
 }

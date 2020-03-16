@@ -63,4 +63,14 @@ public interface EcontractAccountService {
      * @return true:删除成功  false:删除失败
      */
     boolean deleteAccountByThirdPartyUserId(EcontractToken econtractToken, String thirdPartyUserId);
+
+    /**
+     * 设置签署密码
+     *
+     * @param econtractToken token
+     * @param accountId      账号ID
+     * @param password       密码
+     * @return true:设置成功  false:设置失败
+     */
+    boolean setSignPwd(EcontractToken econtractToken, String accountId, String password);
 }

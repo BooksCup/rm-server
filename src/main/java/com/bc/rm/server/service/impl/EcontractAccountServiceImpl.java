@@ -278,6 +278,55 @@ public class EcontractAccountServiceImpl implements EcontractAccountService {
     }
 
     /**
+     * 设置签署密码
+     *
+     * @param econtractToken token
+     * @param accountId      账号ID
+     * @param password       密码
+     * @return true:设置成功  false:设置失败
+     */
+    @Override
+    public boolean setSignPwd(EcontractToken econtractToken, String accountId, String password) {
+        boolean setFlag;
+        String eSignHost = Constant.E_SIGN_BASE_URL;
+        String path = "/v1/accounts/" + accountId + "/setSignPwd";
+        try {
+            Map<String, String> headerMap = createHeader(econtractToken);
+            Map<String, String> queryMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+
+            Map<String, String> bodyMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            bodyMap.put("password", password);
+            String body = JSON.toJSONString(bodyMap);
+
+            HttpResponse response = HttpUtil.doPost(eSignHost, path, headerMap, queryMap, body);
+            String result = EntityUtils.toString(response.getEntity(), "utf-8");
+            logger.info("result: " + result);
+            TypeReference<ApiBaseResult<?>> typeReference = new TypeReference<ApiBaseResult<?>>() {
+            };
+            ApiBaseResult<?> apiBaseResult = JSON.parseObject(result, typeReference);
+            logger.info("code: " + apiBaseResult.getCode());
+            logger.info("message: " + apiBaseResult.getMessage());
+            if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
+                logger.info("data: " + apiBaseResult.getData());
+                // 修改成功更新db
+                Map<String, String> paramMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+                paramMap.put("accountId", accountId);
+                paramMap.put("password", password);
+                econtractAccountMapper.updateSignPwd(paramMap);
+
+                setFlag = true;
+            } else {
+                setFlag = false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("setSignPwd error: " + e.getMessage());
+            setFlag = false;
+        }
+        return setFlag;
+    }
+
+    /**
      * 创建请求头
      *
      * @param econtractToken accessToken

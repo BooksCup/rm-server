@@ -63,4 +63,11 @@
         delete from t_e_contract_account
         where account_third_party_user_id = #{thirdPartyUserId}
     </delete>
+
+    <update id="updateSignPwd" parameterType="map">
+        update t_e_contract_account
+        set
+        account_sign_pwd = #{password}
+        where account_id = #{accountId}
+    </update>
 </mapper>
