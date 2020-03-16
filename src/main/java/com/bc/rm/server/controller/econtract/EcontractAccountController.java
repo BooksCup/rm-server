@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 /**
- * 电子合同
+ * 电子合同个人账号
  *
  * @author zhou
  */

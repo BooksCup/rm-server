@@ -38,5 +38,10 @@ public interface EcontractAccountMapper {
      */
     void deleteEcontractAccountByThirdPartyUserId(String thirdPartyUserId);
 
+    /**
+     * 修改签署密码
+     *
+     * @param paramMap 参数map
+     */
     void updateSignPwd(Map<String, String> paramMap);
 }

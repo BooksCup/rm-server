@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bc.rm.server.mapper.EcontractOrgMapper">
+
+    <insert id="addEcontractOrg" parameterType="com.bc.rm.server.entity.econtract.EcontractOrg">
+        insert into t_e_contract_org
+        (
+            org_id,
+            org_third_party_user_id,
+            org_creator,
+            org_name,
+            org_id_type,
+            org_id_number,
+            org_legal_id_number,
+            org_legal_name,
+            org_create_time,
+            org_modify_time
+        )
+        values
+        (
+            #{orgId},
+            #{thirdPartyUserId},
+            #{creator},
+            #{name},
+            #{idType},
+            #{idNumber},
+            #{legalIdNumber},
+            #{legalName},
+            now(),
+            now()
+        )
+    </insert>
+
+</mapper>

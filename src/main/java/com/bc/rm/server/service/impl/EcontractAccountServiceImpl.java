@@ -27,7 +27,7 @@ import java.util.Map;
  */
 @Service("econtractAccountService")
 public class EcontractAccountServiceImpl implements EcontractAccountService {
-    private static final Logger logger = LoggerFactory.getLogger(EcontractTokenServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(EcontractAccountServiceImpl.class);
 
     @Resource
     private EcontractAccountMapper econtractAccountMapper;
