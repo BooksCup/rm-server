@@ -82,4 +82,44 @@ public class EcontractOrgServiceImpl extends BaseService implements EcontractOrg
         }
         return econtractOrg;
     }
+
+    /**
+     * 按照机构账号ID注销机构账号
+     *
+     * @param econtractToken token
+     * @param orgId          机构账号ID
+     * @return true:删除成功 false:删除失败
+     */
+    @Override
+    public boolean deleteOrgByOrgId(EcontractToken econtractToken, String orgId) {
+        boolean deleteFlag;
+        String eSignHost = Constant.E_SIGN_BASE_URL;
+        String path = "/v1/organizations/" + orgId;
+        try {
+            Map<String, String> headerMap = createHeader(econtractToken);
+            Map<String, String> queryMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            HttpResponse response = HttpUtil.doDelete(eSignHost, path, headerMap, queryMap);
+            String result = EntityUtils.toString(response.getEntity(), "utf-8");
+            logger.info("result: " + result);
+            TypeReference<ApiBaseResult<?>> typeReference = new TypeReference<ApiBaseResult<?>>() {
+            };
+            ApiBaseResult<?> apiBaseResult = JSON.parseObject(result, typeReference);
+            logger.info("code: " + apiBaseResult.getCode());
+            logger.info("message: " + apiBaseResult.getMessage());
+            if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
+                // api删除成功
+                // 删除db里的数据
+                econtractOrgMapper.deleteOrgByOrgId(orgId);
+
+                deleteFlag = true;
+            } else {
+                deleteFlag = false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("deleteOrgByOrgId error: " + e.getMessage());
+            deleteFlag = false;
+        }
+        return deleteFlag;
+    }
 }

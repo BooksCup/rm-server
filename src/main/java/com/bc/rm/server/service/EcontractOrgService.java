@@ -18,4 +18,13 @@ public interface EcontractOrgService {
      * @return 机构账号
      */
     EcontractOrg createEcontractOrg(EcontractToken econtractToken, EcontractOrg econtractOrg);
+
+    /**
+     * 按照机构账号ID注销机构账号
+     *
+     * @param econtractToken token
+     * @param orgId          机构账号ID
+     * @return true:删除成功 false:删除失败
+     */
+    boolean deleteOrgByOrgId(EcontractToken econtractToken, String orgId);
 }

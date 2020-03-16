@@ -15,4 +15,11 @@ public interface EcontractOrgMapper {
      * @param econtractOrg 电子合同机构
      */
     void addEcontractOrg(EcontractOrg econtractOrg);
+
+    /**
+     * 按照机构账号ID注销机构账号
+     *
+     * @param orgId 机构账号ID
+     */
+    void deleteOrgByOrgId(String orgId);
 }

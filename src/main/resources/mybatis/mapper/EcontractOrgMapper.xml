@@ -31,4 +31,9 @@
         )
     </insert>
 
+    <delete id="deleteOrgByOrgId" parameterType="String">
+        delete from t_e_contract_org
+        where org_id = #{orgId}
+    </delete>
+
 </mapper>

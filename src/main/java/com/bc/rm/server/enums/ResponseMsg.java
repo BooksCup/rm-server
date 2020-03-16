@@ -28,7 +28,10 @@ public enum ResponseMsg {
     DELETE_E_CONTRACT_ACCOUNT_ERROR("DELETE_E_CONTRACT_ACCOUNT_ERROR", "删除电子合同账户失败"),
 
     SET_SIGN_PWD_SUCCESS("SET_SIGN_PWD_SUCCESS", "设置签署密码成功"),
-    SET_SIGN_PWD_ERROR("SET_SIGN_PWD_ERROR", "设置签署密码失败"),;
+    SET_SIGN_PWD_ERROR("SET_SIGN_PWD_ERROR", "设置签署密码失败"),
+
+    DELETE_E_CONTRACT_ORG_SUCCESS("DELETE_E_CONTRACT_ORG_SUCCESS", "删除电子合同机构账户成功"),
+    DELETE_E_CONTRACT_ORG_ERROR("DELETE_E_CONTRACT_ORG_ERROR", "删除电子合同机构账户失败"),;
 
     ResponseMsg(String responseCode, String responseMessage) {
         this.responseCode = responseCode;

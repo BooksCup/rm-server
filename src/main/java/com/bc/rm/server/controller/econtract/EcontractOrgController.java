@@ -2,6 +2,7 @@ package com.bc.rm.server.controller.econtract;
 
 import com.bc.rm.server.entity.econtract.EcontractOrg;
 import com.bc.rm.server.entity.econtract.EcontractToken;
+import com.bc.rm.server.enums.ResponseMsg;
 import com.bc.rm.server.service.EcontractOrgService;
 import com.bc.rm.server.service.EcontractTokenService;
 import io.swagger.annotations.ApiOperation;
@@ -10,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -77,4 +75,26 @@ public class EcontractOrgController {
         return responseEntity;
     }
 
+    /**
+     * 删除/注销机构账号(按照账号ID删除)
+     *
+     * @param orgId 机构账号ID
+     * @return ResponseEntity<String>
+     */
+    @ApiOperation(value = "删除/注销机构账号(按照账号ID删除)", notes = "删除/注销机构账号(按照账号ID删除)")
+    @DeleteMapping(value = "/{orgId}")
+    public ResponseEntity<String> deleteAccountByAccountId(@PathVariable String orgId) {
+        ResponseEntity<String> responseEntity;
+        try {
+            EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
+            // 调用api删除电子合同机构账号
+            econtractOrgService.deleteOrgByOrgId(econtractToken, orgId);
+            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ORG_SUCCESS.getResponseCode(),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ORG_ERROR.getResponseCode(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
 }

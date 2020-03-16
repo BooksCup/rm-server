@@ -232,7 +232,6 @@ public class EcontractAccountServiceImpl extends BaseService implements Econtrac
             deleteFlag = false;
         }
         return deleteFlag;
-
     }
 
     /**
