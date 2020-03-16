@@ -47,6 +47,7 @@ CREATE TABLE `t_e_contract_account` (
   `account_id` varchar(32) NOT NULL COMMENT '云签章个人账号表主键',
   `account_third_party_user_id` varchar(32) DEFAULT NULL COMMENT '用户唯一标识，可传入第三方平台的个人用户id、证件号、手机号、邮箱等，如果设置则作为账号唯一性字段，相同信息不可重复创建。（个人用户与机构的唯一标识不可重复）',
   `account_name` varchar(200) DEFAULT NULL COMMENT '姓名（非实名签署时必填）',
+  `account_sign_pwd` varchar(100) DEFAULT NULL COMMENT '签署密码',
   `account_id_type` varchar(50) DEFAULT NULL COMMENT '证件类型,默认CRED_PSN_CH_IDCARD',
   `account_id_number` varchar(100) DEFAULT NULL COMMENT '证件号（非实名签署时必填）',
   `account_mobile` varchar(50) DEFAULT NULL COMMENT '手机号码，默认空，手机号为空时无法使用短信意愿认证',
