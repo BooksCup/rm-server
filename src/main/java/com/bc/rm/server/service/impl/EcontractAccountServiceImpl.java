@@ -8,6 +8,7 @@ import com.bc.rm.server.entity.econtract.EcontractToken;
 import com.bc.rm.server.entity.econtract.result.Account;
 import com.bc.rm.server.entity.econtract.result.ApiBaseResult;
 import com.bc.rm.server.mapper.EcontractAccountMapper;
+import com.bc.rm.server.service.BaseService;
 import com.bc.rm.server.service.EcontractAccountService;
 import com.bc.rm.server.util.HttpUtil;
 import org.apache.http.HttpResponse;
@@ -26,7 +27,7 @@ import java.util.Map;
  * @author zhou
  */
 @Service("econtractAccountService")
-public class EcontractAccountServiceImpl implements EcontractAccountService {
+public class EcontractAccountServiceImpl extends BaseService implements EcontractAccountService {
     private static final Logger logger = LoggerFactory.getLogger(EcontractAccountServiceImpl.class);
 
     @Resource
@@ -324,37 +325,5 @@ public class EcontractAccountServiceImpl implements EcontractAccountService {
             setFlag = false;
         }
         return setFlag;
-    }
-
-    /**
-     * 创建请求头
-     *
-     * @param econtractToken accessToken
-     * @return 请求头map
-     */
-    private Map<String, String> createHeader(EcontractToken econtractToken) {
-        Map<String, String> headerMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
-        headerMap.put("Content-Type", "application/json");
-        headerMap.put("X-Tsign-Open-App-Id", econtractToken.getAppId());
-        headerMap.put("X-Tsign-Open-Token", econtractToken.getContent());
-        return headerMap;
-    }
-
-    /**
-     * 创建个人账号请求体
-     *
-     * @param econtractAccount 个人账号
-     * @return 个人账号请求体map
-     */
-    private Map<String, String> createAccountBody(EcontractAccount econtractAccount) {
-        // 消息体
-        Map<String, String> bodyMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
-        bodyMap.put("thirdPartyUserId", econtractAccount.getThirdPartyUserId());
-        bodyMap.put("name", econtractAccount.getName());
-        bodyMap.put("idType", econtractAccount.getIdType());
-        bodyMap.put("idNumber", econtractAccount.getIdNumber());
-        bodyMap.put("mobile", econtractAccount.getMobile());
-        bodyMap.put("email", econtractAccount.getEmail());
-        return bodyMap;
     }
 }
