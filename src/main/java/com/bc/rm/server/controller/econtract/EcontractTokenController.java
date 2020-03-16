@@ -1,4 +1,4 @@
-package com.bc.rm.server.controller;
+package com.bc.rm.server.controller.econtract;
 
 import com.bc.rm.server.entity.econtract.EcontractToken;
 import com.bc.rm.server.service.EcontractTokenService;
