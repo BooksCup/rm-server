@@ -129,6 +129,39 @@ public class EcontractOrgServiceImpl extends BaseService implements EcontractOrg
     }
 
     /**
+     * 查询机构账号(按照机构ID查询)
+     *
+     * @param econtractToken accessToken
+     * @param orgId          机构ID
+     * @return 机构账号
+     */
+    @Override
+    public EcontractOrg getOrgByOrgId(EcontractToken econtractToken, String orgId) {
+        String eSignHost = Constant.E_SIGN_BASE_URL;
+        String path = "/v1/organizations/" + orgId;
+        try {
+            Map<String, String> headerMap = createHeader(econtractToken);
+            Map<String, String> queryMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            HttpResponse response = HttpUtil.doGet(eSignHost, path, headerMap, queryMap);
+            String result = EntityUtils.toString(response.getEntity(), "utf-8");
+            logger.info("result: " + result);
+
+            TypeReference<ApiBaseResult<EcontractOrg>> typeReference = new TypeReference<ApiBaseResult<EcontractOrg>>() {
+            };
+            ApiBaseResult<EcontractOrg> apiBaseResult = JSON.parseObject(result, typeReference);
+            logger.info("code: " + apiBaseResult.getCode());
+            logger.info("message: " + apiBaseResult.getMessage());
+
+            if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
+                return apiBaseResult.getData();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new EcontractOrg();
+    }
+
+    /**
      * 按照机构账号ID注销机构账号
      *
      * @param econtractToken token

@@ -111,7 +111,6 @@ public class EcontractAccountController {
         return responseEntity;
     }
 
-
     /**
      * 查询个人账号(按照账号ID查询)
      *

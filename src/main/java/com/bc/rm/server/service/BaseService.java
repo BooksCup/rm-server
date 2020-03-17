@@ -43,8 +43,8 @@ public class BaseService {
         bodyMap.put("name", econtractOrg.getName());
         bodyMap.put("idType", econtractOrg.getIdType());
         bodyMap.put("idNumber", econtractOrg.getIdNumber());
-        bodyMap.put("orgLegalIdNumber", econtractOrg.getLegalIdNumber());
-        bodyMap.put("orgLegalName", econtractOrg.getLegalName());
+        bodyMap.put("orgLegalIdNumber", econtractOrg.getOrgLegalIdNumber());
+        bodyMap.put("orgLegalName", econtractOrg.getOrgLegalName());
         return bodyMap;
     }
 

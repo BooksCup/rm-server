@@ -2,6 +2,7 @@ package com.bc.rm.server.controller.econtract;
 
 import com.bc.rm.server.entity.econtract.EcontractOrg;
 import com.bc.rm.server.entity.econtract.EcontractToken;
+import com.bc.rm.server.entity.econtract.result.Account;
 import com.bc.rm.server.enums.ResponseMsg;
 import com.bc.rm.server.service.EcontractOrgService;
 import com.bc.rm.server.service.EcontractTokenService;
@@ -84,7 +85,7 @@ public class EcontractOrgController {
      * @param idNumber         证件号，该字段只有为空才允许修改
      * @param orgLegalIdNumber 企业法人证件号
      * @param orgLegalName     企业法人名称
-     * @return
+     * @return ResponseEntity<EcontractOrg>
      */
     @ApiOperation(value = "修改机构账号(按照账号ID修改)", notes = "修改机构账号(按照账号ID修改)")
     @PutMapping(value = "/{orgId}")
@@ -109,6 +110,27 @@ public class EcontractOrgController {
         return responseEntity;
     }
 
+    /**
+     * 查询机构账号(按照机构ID查询)
+     *
+     * @param orgId 机构ID
+     * @return ResponseEntity<Account>
+     */
+    @ApiOperation(value = "查询机构账号(按照机构ID查询)", notes = "查询机构账号(按照机构ID查询)")
+    @GetMapping(value = "/{orgId}")
+    public ResponseEntity<EcontractOrg> getOrgByOrgId(@PathVariable String orgId) {
+        ResponseEntity<EcontractOrg> responseEntity;
+        try {
+            EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
+            // 调用api查询电子合同个人账号
+            EcontractOrg econtractOrg = econtractOrgService.getOrgByOrgId(econtractToken, orgId);
+            responseEntity = new ResponseEntity<>(econtractOrg, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("getOrgByOrgId error: " + e.getMessage());
+            responseEntity = new ResponseEntity<>(new EcontractOrg(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
 
     /**
      * 删除/注销机构账号(按照账号ID删除)

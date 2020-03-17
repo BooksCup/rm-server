@@ -12,8 +12,8 @@ public class EcontractOrg {
     private String name;
     private String idType;
     private String idNumber;
-    private String legalIdNumber;
-    private String legalName;
+    private String orgLegalIdNumber;
+    private String orgLegalName;
     private String createTime;
     private String modifyTime;
 
@@ -28,14 +28,14 @@ public class EcontractOrg {
                         String name,
                         String idType,
                         String idNumber,
-                        String legalIdNumber,
-                        String legalName) {
+                        String orgLegalIdNumber,
+                        String orgLegalName) {
         this.orgId = orgId;
         this.name = name;
         this.idType = idType;
         this.idNumber = idNumber;
-        this.legalIdNumber = legalIdNumber;
-        this.legalName = legalName;
+        this.orgLegalIdNumber = orgLegalIdNumber;
+        this.orgLegalName = orgLegalName;
 
     }
 
@@ -44,15 +44,15 @@ public class EcontractOrg {
                         String name,
                         String idType,
                         String idNumber,
-                        String legalIdNumber,
-                        String legalName) {
+                        String orgLegalIdNumber,
+                        String orgLegalName) {
         this.thirdPartyUserId = thirdPartyUserId;
         this.creator = creator;
         this.name = name;
         this.idType = idType;
         this.idNumber = idNumber;
-        this.legalIdNumber = legalIdNumber;
-        this.legalName = legalName;
+        this.orgLegalIdNumber = orgLegalIdNumber;
+        this.orgLegalName = orgLegalName;
     }
 
     public String getOrgId() {
@@ -103,20 +103,20 @@ public class EcontractOrg {
         this.idNumber = idNumber;
     }
 
-    public String getLegalIdNumber() {
-        return legalIdNumber;
+    public String getOrgLegalIdNumber() {
+        return orgLegalIdNumber;
     }
 
-    public void setLegalIdNumber(String legalIdNumber) {
-        this.legalIdNumber = legalIdNumber;
+    public void setOrgLegalIdNumber(String orgLegalIdNumber) {
+        this.orgLegalIdNumber = orgLegalIdNumber;
     }
 
-    public String getLegalName() {
-        return legalName;
+    public String getOrgLegalName() {
+        return orgLegalName;
     }
 
-    public void setLegalName(String legalName) {
-        this.legalName = legalName;
+    public void setOrgLegalName(String orgLegalName) {
+        this.orgLegalName = orgLegalName;
     }
 
     public String getCreateTime() {

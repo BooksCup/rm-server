@@ -24,8 +24,8 @@
             #{name},
             #{idType},
             #{idNumber},
-            #{legalIdNumber},
-            #{legalName},
+            #{orgLegalIdNumber},
+            #{orgLegalName},
             now(),
             now()
         )
@@ -43,11 +43,11 @@
         <if test="idNumber != null and idNumber !=''">
             org_id_number = #{idNumber},
         </if>
-        <if test="legalIdNumber != null and legalIdNumber !=''">
-            org_legal_id_number = #{legalIdNumber},
+        <if test="orgLegalIdNumber != null and orgLegalIdNumber !=''">
+            org_legal_id_number = #{orgLegalIdNumber},
         </if>
-        <if test="legalName != null and legalName !=''">
-            org_legal_name = #{legalName},
+        <if test="orgLegalName != null and orgLegalName !=''">
+            org_legal_name = #{orgLegalName},
         </if>
         org_modify_time = now()
         where org_id = #{orgId}

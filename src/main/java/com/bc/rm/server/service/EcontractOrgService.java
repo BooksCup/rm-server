@@ -29,6 +29,15 @@ public interface EcontractOrgService {
     EcontractOrg updateEcontractOrgByOrgId(EcontractToken econtractToken, EcontractOrg econtractOrg);
 
     /**
+     * 查询机构账号(按照机构ID查询)
+     *
+     * @param econtractToken accessToken
+     * @param orgId          机构ID
+     * @return 机构账号
+     */
+    EcontractOrg getOrgByOrgId(EcontractToken econtractToken, String orgId);
+
+    /**
      * 按照机构账号ID注销机构账号
      *
      * @param econtractToken token
