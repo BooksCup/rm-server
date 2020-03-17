@@ -22,4 +22,11 @@ public interface EcontractOrgMapper {
      * @param orgId 机构账号ID
      */
     void deleteOrgByOrgId(String orgId);
+
+    /**
+     * 删除/注销机构账号(按照第三方机构ID注销)
+     *
+     * @param thirdPartyUserId 第三方机构ID
+     */
+    void deleteOrgByThirdPartyUserId(String thirdPartyUserId);
 }

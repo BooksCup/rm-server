@@ -27,4 +27,13 @@ public interface EcontractOrgService {
      * @return true:删除成功 false:删除失败
      */
     boolean deleteOrgByOrgId(EcontractToken econtractToken, String orgId);
+
+    /**
+     * 删除/注销机构账号(按照第三方机构ID注销)
+     *
+     * @param econtractToken   token
+     * @param thirdPartyUserId 第三方机构ID
+     * @return true:删除成功 false:删除失败
+     */
+    boolean deleteOrgByThirdPartyUserId(EcontractToken econtractToken, String thirdPartyUserId);
 }

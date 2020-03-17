@@ -97,4 +97,27 @@ public class EcontractOrgController {
         }
         return responseEntity;
     }
+
+    /**
+     * 删除/注销机构账号(按照第三方机构ID注销)
+     *
+     * @param thirdPartyUserId 第三方用户ID
+     * @return ResponseEntity<String>
+     */
+    @ApiOperation(value = "删除/注销机构账号(按照第三方机构ID注销)", notes = "删除/注销机构账号(按照第三方机构ID注销)")
+    @DeleteMapping(value = "/deleteByThirdId")
+    public ResponseEntity<String> deleteAccountByThirdPartyUserId(@RequestParam String thirdPartyUserId) {
+        ResponseEntity<String> responseEntity;
+        try {
+            EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
+            // 调用api删除电子合同个人账号
+            econtractOrgService.deleteOrgByThirdPartyUserId(econtractToken, thirdPartyUserId);
+            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ORG_ERROR.getResponseCode(),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ORG_ERROR.getResponseCode(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
 }

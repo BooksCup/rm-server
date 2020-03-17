@@ -36,4 +36,9 @@
         where org_id = #{orgId}
     </delete>
 
+    <delete id="deleteOrgByThirdPartyUserId" parameterType="String">
+        delete from t_e_contract_org
+        where org_third_party_user_id = #{thirdPartyUserId}
+    </delete>
+
 </mapper>
