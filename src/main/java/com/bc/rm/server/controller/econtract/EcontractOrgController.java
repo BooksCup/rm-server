@@ -76,6 +76,41 @@ public class EcontractOrgController {
     }
 
     /**
+     * 修改机构账号(按照账号ID修改)
+     *
+     * @param orgId            机构账号id
+     * @param name             机构名称，默认不变
+     * @param idType           证件类型，默认CRED_ORG_USCC
+     * @param idNumber         证件号，该字段只有为空才允许修改
+     * @param orgLegalIdNumber 企业法人证件号
+     * @param orgLegalName     企业法人名称
+     * @return
+     */
+    @ApiOperation(value = "修改机构账号(按照账号ID修改)", notes = "修改机构账号(按照账号ID修改)")
+    @PutMapping(value = "/{orgId}")
+    public ResponseEntity<EcontractOrg> updateEcontractOrgByOrgId(
+            @PathVariable String orgId,
+            @RequestParam String name,
+            @RequestParam String idType,
+            @RequestParam String idNumber,
+            @RequestParam String orgLegalIdNumber,
+            @RequestParam String orgLegalName) {
+        ResponseEntity<EcontractOrg> responseEntity;
+        EcontractOrg econtractOrg = new EcontractOrg(orgId, name, idType, idNumber, orgLegalIdNumber, orgLegalName);
+        try {
+            EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
+            econtractOrg = econtractOrgService.updateEcontractOrgByOrgId(econtractToken, econtractOrg);
+            // 调用api修改电子合同个人账号
+            responseEntity = new ResponseEntity<>(econtractOrg, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("updateEcontractOrgByOrgId error: " + e.getMessage());
+            responseEntity = new ResponseEntity<>(econtractOrg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
+
+    /**
      * 删除/注销机构账号(按照账号ID删除)
      *
      * @param orgId 机构账号ID

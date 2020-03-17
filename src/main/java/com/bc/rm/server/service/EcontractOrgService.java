@@ -20,6 +20,15 @@ public interface EcontractOrgService {
     EcontractOrg createEcontractOrg(EcontractToken econtractToken, EcontractOrg econtractOrg);
 
     /**
+     * 修改电子合同机构账号
+     *
+     * @param econtractToken accessToken
+     * @param econtractOrg   机构账号
+     * @return 机构账号
+     */
+    EcontractOrg updateEcontractOrgByOrgId(EcontractToken econtractToken, EcontractOrg econtractOrg);
+
+    /**
      * 按照机构账号ID注销机构账号
      *
      * @param econtractToken token

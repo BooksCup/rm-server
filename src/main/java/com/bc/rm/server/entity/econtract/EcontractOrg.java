@@ -24,14 +24,28 @@ public class EcontractOrg {
 
     }
 
-    public EcontractOrg(
-            String thirdPartyUserId,
-            String creator,
-            String name,
-            String idType,
-            String idNumber,
-            String legalIdNumber,
-            String legalName) {
+    public EcontractOrg(String orgId,
+                        String name,
+                        String idType,
+                        String idNumber,
+                        String legalIdNumber,
+                        String legalName) {
+        this.orgId = orgId;
+        this.name = name;
+        this.idType = idType;
+        this.idNumber = idNumber;
+        this.legalIdNumber = legalIdNumber;
+        this.legalName = legalName;
+
+    }
+
+    public EcontractOrg(String thirdPartyUserId,
+                        String creator,
+                        String name,
+                        String idType,
+                        String idNumber,
+                        String legalIdNumber,
+                        String legalName) {
         this.thirdPartyUserId = thirdPartyUserId;
         this.creator = creator;
         this.name = name;

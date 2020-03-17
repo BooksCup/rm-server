@@ -1,6 +1,7 @@
 package com.bc.rm.server.mapper;
 
 import com.bc.rm.server.entity.econtract.EcontractOrg;
+import com.bc.rm.server.entity.econtract.EcontractToken;
 
 
 /**
@@ -15,6 +16,8 @@ public interface EcontractOrgMapper {
      * @param econtractOrg 电子合同机构
      */
     void addEcontractOrg(EcontractOrg econtractOrg);
+
+    void updateEcontractOrgByOrgId( EcontractOrg econtractOrg);
 
     /**
      * 按照机构账号ID注销机构账号

@@ -31,6 +31,28 @@
         )
     </insert>
 
+    <update id="updateEcontractOrgByOrgId" parameterType="com.bc.rm.server.entity.econtract.EcontractOrg">
+        update t_e_contract_org
+        set
+        <if test="name != null and name !=''">
+            org_name = #{name},
+        </if>
+        <if test="idType != null and idType !=''">
+            org_id_type = #{idType},
+        </if>
+        <if test="idNumber != null and idNumber !=''">
+            org_id_number = #{idNumber},
+        </if>
+        <if test="legalIdNumber != null and legalIdNumber !=''">
+            org_legal_id_number = #{legalIdNumber},
+        </if>
+        <if test="legalName != null and legalName !=''">
+            org_legal_name = #{legalName},
+        </if>
+        org_modify_time = now()
+        where org_id = #{orgId}
+    </update>
+
     <delete id="deleteOrgByOrgId" parameterType="String">
         delete from t_e_contract_org
         where org_id = #{orgId}

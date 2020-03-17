@@ -84,6 +84,51 @@ public class EcontractOrgServiceImpl extends BaseService implements EcontractOrg
     }
 
     /**
+     * 修改电子合同机构账号
+     *
+     * @param econtractToken accessToken
+     * @param econtractOrg   机构账号
+     * @return 机构账号
+     */
+    @Override
+    public EcontractOrg updateEcontractOrgByOrgId(EcontractToken econtractToken, EcontractOrg econtractOrg) {
+        String eSignHost = Constant.E_SIGN_BASE_URL;
+        String path = "/v1/organizations/" + econtractOrg.getOrgId();
+
+        // 消息头，主要包含鉴权信息
+        Map<String, String> headerMap = createHeader(econtractToken);
+
+        // 查询参数
+        Map<String, String> queryMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+
+        // 消息体
+        Map<String, String> bodyMap = createOrgBody(econtractOrg);
+        String body = JSON.toJSONString(bodyMap);
+
+        try {
+            HttpResponse response = HttpUtil.doPut(eSignHost, path, headerMap, queryMap, body);
+            String result = EntityUtils.toString(response.getEntity(), "utf-8");
+            logger.info("result: " + result);
+
+            TypeReference<ApiBaseResult<EcontractOrg>> typeReference = new TypeReference<ApiBaseResult<EcontractOrg>>() {
+            };
+            ApiBaseResult<EcontractOrg> apiBaseResult = JSON.parseObject(result, typeReference);
+            logger.info("code: " + apiBaseResult.getCode());
+            logger.info("message: " + apiBaseResult.getMessage());
+
+            econtractOrg.setApiResultCode(apiBaseResult.getCode());
+            econtractOrg.setApiResultMessage(apiBaseResult.getMessage());
+
+            if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
+                econtractOrgMapper.updateEcontractOrgByOrgId(econtractOrg);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return econtractOrg;
+    }
+
+    /**
      * 按照机构账号ID注销机构账号
      *
      * @param econtractToken token
