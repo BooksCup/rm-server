@@ -57,6 +57,50 @@ CREATE TABLE `t_e_contract_account` (
   PRIMARY KEY (`account_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+/*Table structure for table `t_e_contract_org` */
+
+DROP TABLE IF EXISTS `t_e_contract_org`;
+
+CREATE TABLE `t_e_contract_org` (
+  `org_id` varchar(32) NOT NULL COMMENT '电子合同机构表主键',
+  `org_third_party_user_id` varchar(32) DEFAULT NULL COMMENT '机构唯一标识，可传入第三方平台机构id、企业证件号、企业邮箱等如果设置则作为账号唯一性字段，相同id不可重复创建。（个人用户与机构的唯一标识不可重复）',
+  `org_creator` varchar(32) DEFAULT NULL COMMENT '创建人个人账号id（调用个人账号创建接口返回的accountId）',
+  `org_name` varchar(200) DEFAULT NULL COMMENT '机构名称',
+  `org_id_type` varchar(50) DEFAULT NULL COMMENT '证件类型，默认CRED_ORG_USCC',
+  `org_id_number` varchar(100) DEFAULT NULL COMMENT '证件号',
+  `org_legal_id_number` varchar(200) DEFAULT NULL COMMENT '企业法人证件号',
+  `org_legal_name` varchar(100) DEFAULT NULL COMMENT '企业法人名称',
+  `org_create_time` varchar(20) DEFAULT NULL COMMENT '机构创建时间',
+  `org_modify_time` varchar(20) DEFAULT NULL COMMENT '机构修改时间',
+  PRIMARY KEY (`org_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Table structure for table `t_e_contract_seal` */
+
+DROP TABLE IF EXISTS `t_e_contract_seal`;
+
+CREATE TABLE `t_e_contract_seal` (
+  `seal_id` varchar(50) NOT NULL COMMENT '印章表主键',
+  `seal_account_type` varchar(1) DEFAULT NULL COMMENT '"0":"个人印章"  "1":"机构印章"',
+  `seal_create_type` varchar(1) DEFAULT NULL COMMENT '创建方式 "0":"通过模板创建" "1":"通过图片创建"',
+  `seal_account_id` varchar(32) DEFAULT NULL COMMENT '用户ID',
+  `seal_org_id` varchar(32) DEFAULT NULL COMMENT '机构ID',
+  `seal_alias` varchar(200) DEFAULT NULL COMMENT '印章别名',
+  `seal_color` varchar(10) DEFAULT NULL COMMENT '印章颜色，RED-红色， BLUE-蓝色，BLACK-黑色',
+  `seal_height` int(5) DEFAULT NULL COMMENT '印章高度, 默认95px',
+  `seal_width` int(5) DEFAULT NULL COMMENT '印章宽度, 默认95px',
+  `seal_type` varchar(20) DEFAULT NULL COMMENT '模板类型',
+  `seal_htext` varchar(20) DEFAULT NULL COMMENT '横向文，可设置0-8个字，企业名称超出25个字后，不支持设置横向文',
+  `seal_qtext` varchar(20) DEFAULT NULL COMMENT '下弦文，可设置0-20个字，企业企业名称超出25个字后，不支持设置下弦文',
+  `seal_central` varchar(20) DEFAULT NULL COMMENT '中心图案类型，STAR-圆形有五角星，NONE-圆形无五角星',
+  `seal_data` longtext COMMENT '印章数据',
+  `seal_transparent_flag` varchar(1) DEFAULT '0' COMMENT '是否对图片进行透明化处理，"0":"否" "1":"是" 默认false',
+  `seal_file_key` varchar(200) DEFAULT NULL COMMENT '印章fileKey',
+  `seal_url` varchar(500) DEFAULT NULL COMMENT '印章下载地址, 有效时间1小时',
+  `seal_create_time` varchar(20) DEFAULT NULL COMMENT '印章创建时间',
+  PRIMARY KEY (`seal_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 /*Table structure for table `t_e_contract_token` */
 
 DROP TABLE IF EXISTS `t_e_contract_token`;
