@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bc.rm.server.mapper.EcontractSealMapper">
+
+    <insert id="addEcontractSeal" parameterType="com.bc.rm.server.entity.econtract.EcontractSeal">
+        insert into t_e_contract_seal
+        (
+            seal_id,
+            seal_account_type,
+            seal_create_type,
+            seal_account_id,
+            seal_org_id,
+            seal_alias,
+            seal_color,
+            seal_height,
+            seal_width,
+            seal_type,
+            seal_htext,
+            seal_qtext,
+            seal_central,
+            seal_data,
+            seal_transparent_flag,
+            seal_file_key,
+            seal_url,
+            seal_create_time
+        )
+        values
+        (
+            #{sealId},
+            #{accountType},
+            #{createType},
+            #{accountId},
+            #{orgId},
+            #{alias},
+            #{color},
+            #{height},
+            #{width},
+            #{type},
+            #{htext},
+            #{qtext},
+            #{central},
+            #{data},
+            #{transparentFlag},
+            #{fileKey},
+            #{url},
+            now()
+        )
+    </insert>
+
+</mapper>

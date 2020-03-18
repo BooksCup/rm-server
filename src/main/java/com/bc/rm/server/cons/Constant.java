@@ -88,4 +88,24 @@ public class Constant {
      * 电子合同服务成功返回码
      */
     public static final String E_CONTRACT_SUCCESS_RESULT_CODE = "0";
+
+    /**
+     * 账号类型-个人
+     */
+    public static final String SEAL_ACCOUNT_TYPE_PERSONAL = "0";
+
+    /**
+     * 账号类型-机构
+     */
+    public static final String SEAL_ACCOUNT_TYPE_OFFICIAL = "1";
+
+    /**
+     * 创建方式-"模板"
+     */
+    public static final String SEAL_CREATE_TYPE_TEMPLATE = "0";
+
+    /**
+     * 创建方式-"图片"
+     */
+    public static final String SEAL_CREATE_TYPE_IMAGE = "1";
 }

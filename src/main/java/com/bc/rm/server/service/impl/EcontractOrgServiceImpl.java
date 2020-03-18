@@ -22,7 +22,6 @@ import java.util.Map;
 
 /**
  * 电子合同机构
- * orgId:e0b6e399887940c384149c06ebd6557e
  *
  * @author zhou
  */

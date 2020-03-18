@@ -3,6 +3,7 @@ package com.bc.rm.server.service;
 import com.bc.rm.server.cons.Constant;
 import com.bc.rm.server.entity.econtract.EcontractAccount;
 import com.bc.rm.server.entity.econtract.EcontractOrg;
+import com.bc.rm.server.entity.econtract.EcontractSeal;
 import com.bc.rm.server.entity.econtract.EcontractToken;
 
 import java.util.HashMap;
@@ -63,6 +64,17 @@ public class BaseService {
         bodyMap.put("idNumber", econtractAccount.getIdNumber());
         bodyMap.put("mobile", econtractAccount.getMobile());
         bodyMap.put("email", econtractAccount.getEmail());
+        return bodyMap;
+    }
+
+    protected Map<String, String> createPersonalTemplateBody(EcontractSeal econtractSeal) {
+        // 消息体
+        Map<String, String> bodyMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+        bodyMap.put("alias", econtractSeal.getAlias());
+        bodyMap.put("color", econtractSeal.getColor());
+        bodyMap.put("height", econtractSeal.getHeight() + "");
+        bodyMap.put("type", econtractSeal.getType());
+        bodyMap.put("width", econtractSeal.getWidth() + "");
         return bodyMap;
     }
 }

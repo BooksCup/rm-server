@@ -2,7 +2,6 @@ package com.bc.rm.server.controller.econtract;
 
 import com.bc.rm.server.entity.econtract.EcontractOrg;
 import com.bc.rm.server.entity.econtract.EcontractToken;
-import com.bc.rm.server.entity.econtract.result.Account;
 import com.bc.rm.server.enums.ResponseMsg;
 import com.bc.rm.server.service.EcontractOrgService;
 import com.bc.rm.server.service.EcontractTokenService;
