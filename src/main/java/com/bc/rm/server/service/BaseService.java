@@ -67,6 +67,12 @@ public class BaseService {
         return bodyMap;
     }
 
+    /**
+     * 创建个人模板印章请求体
+     *
+     * @param econtractSeal 印章
+     * @return 个人模板印章请求体map
+     */
     protected Map<String, String> createPersonalTemplateBody(EcontractSeal econtractSeal) {
         // 消息体
         Map<String, String> bodyMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
@@ -75,6 +81,26 @@ public class BaseService {
         bodyMap.put("height", econtractSeal.getHeight() + "");
         bodyMap.put("type", econtractSeal.getType());
         bodyMap.put("width", econtractSeal.getWidth() + "");
+        return bodyMap;
+    }
+
+    /**
+     * 创建机构模板印章请求体
+     *
+     * @param econtractSeal 印章
+     * @return 机构模板印章请求体map
+     */
+    protected Map<String, String> createOfficialTemplateBody(EcontractSeal econtractSeal) {
+        // 消息体
+        Map<String, String> bodyMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+        bodyMap.put("alias", econtractSeal.getAlias());
+        bodyMap.put("color", econtractSeal.getColor());
+        bodyMap.put("height", econtractSeal.getHeight() + "");
+        bodyMap.put("type", econtractSeal.getType());
+        bodyMap.put("width", econtractSeal.getWidth() + "");
+        bodyMap.put("htext", econtractSeal.getHtext());
+        bodyMap.put("qtext", econtractSeal.getQtext());
+        bodyMap.put("central", econtractSeal.getCentral());
         return bodyMap;
     }
 }

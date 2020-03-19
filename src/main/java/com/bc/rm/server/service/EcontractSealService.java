@@ -17,4 +17,12 @@ public interface EcontractSealService {
      * @return 个人模板印章
      */
     EcontractSeal createSealPersonalTemplate(EcontractToken econtractToken, EcontractSeal econtractSeal);
+
+    /**
+     * 创建企业模板印章
+     * @param econtractToken token
+     * @param econtractSeal 印章
+     * @return 企业模板印章
+     */
+    EcontractSeal createSealOfficialTemplate(EcontractToken econtractToken, EcontractSeal econtractSeal);
 }

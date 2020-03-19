@@ -62,6 +62,26 @@ public class EcontractSeal {
         this.type = type;
     }
 
+    public EcontractSeal(String orgId,
+                         String alias,
+                         String color,
+                         Integer height,
+                         Integer width,
+                         String htext,
+                         String qtext,
+                         String type,
+                         String central) {
+        this.orgId = orgId;
+        this.alias = alias;
+        this.color = color;
+        this.height = height;
+        this.width = width;
+        this.htext = htext;
+        this.qtext = qtext;
+        this.type = type;
+        this.central = central;
+    }
+
     public String getSealId() {
         return sealId;
     }

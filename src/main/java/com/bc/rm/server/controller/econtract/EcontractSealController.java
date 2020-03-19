@@ -1,6 +1,5 @@
 package com.bc.rm.server.controller.econtract;
 
-import com.bc.rm.server.entity.econtract.EcontractAccount;
 import com.bc.rm.server.entity.econtract.EcontractSeal;
 import com.bc.rm.server.entity.econtract.EcontractToken;
 import com.bc.rm.server.service.EcontractSealService;
@@ -68,6 +67,49 @@ public class EcontractSealController {
             responseEntity = new ResponseEntity<>(econtractSeal, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("createSealPersonalTemplate error: " + e.getMessage());
+            responseEntity = new ResponseEntity<>(econtractSeal, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
+    /**
+     * 创建机构模板印章
+     *
+     * @param orgId   机构id
+     * @param alias   印章别名
+     * @param color   印章颜色，RED-红色，BLUE-蓝色，BLACK-黑色
+     * @param height  印章高度，默认159px
+     * @param width   印章宽度，默认159px
+     * @param htext   横向文，可设置0-8个字，企业名称超出25个字后，不支持设置横向文
+     * @param qtext   下弦文，可设置0-20个字，企业企业名称超出25个字后，不支持设置下弦文
+     * @param type    模板类型，TEMPLATE_ROUND-圆章，TEMPLATE_OVAL-椭圆章
+     * @param central 中心图案类型，STAR-圆形有五角星，NONE-圆形无五角星
+     * @return ResponseEntity<EcontractSeal>
+     */
+    @ApiOperation(value = "创建机构模板印章", notes = "创建机构模板印章")
+    @PostMapping(value = "/officialtemplate")
+    public ResponseEntity<EcontractSeal> createSealOfficialTemplate(
+            @RequestParam String orgId,
+            @RequestParam String alias,
+            @RequestParam String color,
+            @RequestParam Integer height,
+            @RequestParam Integer width,
+            @RequestParam String htext,
+            @RequestParam String qtext,
+            @RequestParam String type,
+            @RequestParam String central) {
+        ResponseEntity<EcontractSeal> responseEntity;
+        EcontractSeal econtractSeal = new EcontractSeal(
+                orgId, alias, color, height, width, htext, qtext, type, central);
+        try {
+            EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
+            econtractSeal = econtractSealService.createSealOfficialTemplate(econtractToken, econtractSeal);
+            if (StringUtils.isEmpty(econtractSeal.getSealId())) {
+                return new ResponseEntity<>(econtractSeal, HttpStatus.BAD_REQUEST);
+            }
+            responseEntity = new ResponseEntity<>(econtractSeal, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("createSealOfficialTemplate error: " + e.getMessage());
             responseEntity = new ResponseEntity<>(econtractSeal, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
