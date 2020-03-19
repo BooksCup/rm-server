@@ -38,4 +38,15 @@ public interface EcontractSealService {
      * @return 个人所有印章
      */
     SealResultList getPersonalSeals(EcontractToken econtractToken, String accountId, Integer offset, Integer size);
+
+    /**
+     * 查询机构所有印章
+     *
+     * @param econtractToken token
+     * @param orgId          机构ID
+     * @param offset         分页起始位置
+     * @param size           单页数量
+     * @return 机构所有印章
+     */
+    SealResultList getOfficialSeals(EcontractToken econtractToken, String orgId, Integer offset, Integer size);
 }

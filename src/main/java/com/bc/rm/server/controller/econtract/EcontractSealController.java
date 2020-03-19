@@ -140,4 +140,29 @@ public class EcontractSealController {
         return responseEntity;
     }
 
+    /**
+     * 查询机构所有印章
+     *
+     * @param orgId  机构ID
+     * @param offset 分页起始位置
+     * @param size   单页数量
+     * @return 机构所有印章
+     */
+    @ApiOperation(value = "查询机构所有印章", notes = "查询机构所有印章")
+    @GetMapping(value = "/officialtemplate")
+    public ResponseEntity<SealResultList> getOfficialSeals(
+            @RequestParam String orgId,
+            @RequestParam(required = false, defaultValue = "1") Integer offset,
+            @RequestParam(required = false, defaultValue = "10") Integer size) {
+        ResponseEntity<SealResultList> responseEntity;
+        try {
+            EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
+            SealResultList sealResultList = econtractSealService.getOfficialSeals(econtractToken, orgId, offset, size);
+            responseEntity = new ResponseEntity<>(sealResultList, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("getOfficialSeals error: " + e.getMessage());
+            responseEntity = new ResponseEntity<>(new SealResultList(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
 }

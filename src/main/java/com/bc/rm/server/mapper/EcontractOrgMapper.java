@@ -17,7 +17,12 @@ public interface EcontractOrgMapper {
      */
     void addEcontractOrg(EcontractOrg econtractOrg);
 
-    void updateEcontractOrgByOrgId( EcontractOrg econtractOrg);
+    /**
+     * 按照机构ID修改机构
+     *
+     * @param econtractOrg 机构
+     */
+    void updateEcontractOrgByOrgId(EcontractOrg econtractOrg);
 
     /**
      * 按照机构账号ID注销机构账号
