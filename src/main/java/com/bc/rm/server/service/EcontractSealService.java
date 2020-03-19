@@ -2,6 +2,7 @@ package com.bc.rm.server.service;
 
 import com.bc.rm.server.entity.econtract.EcontractSeal;
 import com.bc.rm.server.entity.econtract.EcontractToken;
+import com.bc.rm.server.entity.econtract.result.SealResultList;
 
 /**
  * 印章
@@ -20,9 +21,21 @@ public interface EcontractSealService {
 
     /**
      * 创建企业模板印章
+     *
      * @param econtractToken token
-     * @param econtractSeal 印章
+     * @param econtractSeal  印章
      * @return 企业模板印章
      */
     EcontractSeal createSealOfficialTemplate(EcontractToken econtractToken, EcontractSeal econtractSeal);
+
+    /**
+     * 查询个人所有印章
+     *
+     * @param econtractToken token
+     * @param accountId      账号ID
+     * @param offset         分页起始位置
+     * @param size           单页数量
+     * @return 个人所有印章
+     */
+    SealResultList getPersonalSeals(EcontractToken econtractToken, String accountId, Integer offset, Integer size);
 }

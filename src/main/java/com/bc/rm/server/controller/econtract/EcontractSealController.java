@@ -2,6 +2,7 @@ package com.bc.rm.server.controller.econtract;
 
 import com.bc.rm.server.entity.econtract.EcontractSeal;
 import com.bc.rm.server.entity.econtract.EcontractToken;
+import com.bc.rm.server.entity.econtract.result.SealResultList;
 import com.bc.rm.server.service.EcontractSealService;
 import com.bc.rm.server.service.EcontractTokenService;
 import io.swagger.annotations.ApiOperation;
@@ -10,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -111,6 +109,33 @@ public class EcontractSealController {
         } catch (Exception e) {
             logger.error("createSealOfficialTemplate error: " + e.getMessage());
             responseEntity = new ResponseEntity<>(econtractSeal, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
+
+    /**
+     * 查询个人所有印章
+     *
+     * @param accountId 账号ID
+     * @param offset    分页起始位置
+     * @param size      单页数量
+     * @return 个人所有印章
+     */
+    @ApiOperation(value = "查询个人所有印章", notes = "查询个人所有印章")
+    @GetMapping(value = "/personaltemplate")
+    public ResponseEntity<SealResultList> getPersonalSeals(
+            @RequestParam String accountId,
+            @RequestParam(required = false, defaultValue = "1") Integer offset,
+            @RequestParam(required = false, defaultValue = "10") Integer size) {
+        ResponseEntity<SealResultList> responseEntity;
+        try {
+            EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
+            SealResultList sealResultList = econtractSealService.getPersonalSeals(econtractToken, accountId, offset, size);
+            responseEntity = new ResponseEntity<>(sealResultList, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("getPersonalSeals error: " + e.getMessage());
+            responseEntity = new ResponseEntity<>(new SealResultList(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }

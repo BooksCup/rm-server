@@ -44,6 +44,15 @@ public class EcontractSeal {
     private String apiResultCode;
     private String apiResultMessage;
 
+    /**
+     * return field
+     */
+    private String createDate;
+    private Boolean defaultFlag;
+    private Integer sealType;
+    private String sealBizType;
+
+
     public EcontractSeal() {
 
     }
@@ -240,5 +249,37 @@ public class EcontractSeal {
 
     public void setApiResultMessage(String apiResultMessage) {
         this.apiResultMessage = apiResultMessage;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public Boolean getDefaultFlag() {
+        return defaultFlag;
+    }
+
+    public void setDefaultFlag(Boolean defaultFlag) {
+        this.defaultFlag = defaultFlag;
+    }
+
+    public Integer getSealType() {
+        return sealType;
+    }
+
+    public void setSealType(Integer sealType) {
+        this.sealType = sealType;
+    }
+
+    public String getSealBizType() {
+        return sealBizType;
+    }
+
+    public void setSealBizType(String sealBizType) {
+        this.sealBizType = sealBizType;
     }
 }

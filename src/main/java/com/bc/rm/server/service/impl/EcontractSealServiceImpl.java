@@ -6,6 +6,7 @@ import com.bc.rm.server.cons.Constant;
 import com.bc.rm.server.entity.econtract.EcontractSeal;
 import com.bc.rm.server.entity.econtract.EcontractToken;
 import com.bc.rm.server.entity.econtract.result.ApiBaseResult;
+import com.bc.rm.server.entity.econtract.result.SealResultList;
 import com.bc.rm.server.mapper.EcontractSealMapper;
 import com.bc.rm.server.service.BaseService;
 import com.bc.rm.server.service.EcontractSealService;
@@ -80,7 +81,6 @@ public class EcontractSealServiceImpl extends BaseService implements EcontractSe
         return econtractSeal;
     }
 
-
     /**
      * 创建企业模板印章
      *
@@ -128,6 +128,49 @@ public class EcontractSealServiceImpl extends BaseService implements EcontractSe
         }
         return econtractSeal;
     }
+
+    /**
+     * 查询个人所有印章
+     *
+     * @param econtractToken token
+     * @param accountId      账号ID
+     * @param offset         分页起始位置
+     * @param size           单页数量
+     * @return 个人所有印章
+     */
+    @Override
+    public SealResultList getPersonalSeals(EcontractToken econtractToken, String accountId, Integer offset, Integer size) {
+        String eSignHost = Constant.E_SIGN_BASE_URL;
+        String path = "/v1/accounts/" + accountId + "/seals";
+
+        // 消息头，主要包含鉴权信息
+        Map<String, String> headerMap = createHeader(econtractToken);
+
+        // 查询参数
+        Map<String, String> queryMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+        queryMap.put("offset", String.valueOf(offset));
+        queryMap.put("size", String.valueOf(size));
+
+        try {
+            HttpResponse response = HttpUtil.doGet(eSignHost, path, headerMap, queryMap);
+            String result = EntityUtils.toString(response.getEntity(), "utf-8");
+            logger.info("result: " + result);
+
+            TypeReference<ApiBaseResult<SealResultList>> typeReference = new TypeReference<ApiBaseResult<SealResultList>>() {
+            };
+            ApiBaseResult<SealResultList> apiBaseResult = JSON.parseObject(result, typeReference);
+            logger.info("code: " + apiBaseResult.getCode());
+            logger.info("message: " + apiBaseResult.getMessage());
+            if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
+                return apiBaseResult.getData();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new SealResultList();
+    }
+
 
     private void handleApiResult(ApiBaseResult<EcontractSeal> apiBaseResult, EcontractSeal econtractSeal) {
         if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
