@@ -113,51 +113,26 @@ public class EcontractSealController {
         return responseEntity;
     }
 
-
     /**
-     * 查询个人所有印章
+     * 查询个人/机构所有印章
      *
-     * @param accountId 账号ID
-     * @param offset    分页起始位置
-     * @param size      单页数量
-     * @return 个人所有印章
+     * @param accountType 账号类型 "0":个人账号  "1":机构账号
+     * @param accountId   个人/机构账号ID
+     * @param offset      分页起始位置
+     * @param size        单页数量
+     * @return 个人/机构所有印章
      */
-    @ApiOperation(value = "查询个人所有印章", notes = "查询个人所有印章")
-    @GetMapping(value = "/personaltemplate")
-    public ResponseEntity<SealResultList> getPersonalSeals(
+    @ApiOperation(value = "查询机构所有印章", notes = "查询机构所有印章")
+    @GetMapping(value = "/officialtemplate")
+    public ResponseEntity<SealResultList> getOfficialSeals(
+            @RequestParam String accountType,
             @RequestParam String accountId,
             @RequestParam(required = false, defaultValue = "1") Integer offset,
             @RequestParam(required = false, defaultValue = "10") Integer size) {
         ResponseEntity<SealResultList> responseEntity;
         try {
             EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
-            SealResultList sealResultList = econtractSealService.getPersonalSeals(econtractToken, accountId, offset, size);
-            responseEntity = new ResponseEntity<>(sealResultList, HttpStatus.OK);
-        } catch (Exception e) {
-            logger.error("getPersonalSeals error: " + e.getMessage());
-            responseEntity = new ResponseEntity<>(new SealResultList(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return responseEntity;
-    }
-
-    /**
-     * 查询机构所有印章
-     *
-     * @param orgId  机构ID
-     * @param offset 分页起始位置
-     * @param size   单页数量
-     * @return 机构所有印章
-     */
-    @ApiOperation(value = "查询机构所有印章", notes = "查询机构所有印章")
-    @GetMapping(value = "/officialtemplate")
-    public ResponseEntity<SealResultList> getOfficialSeals(
-            @RequestParam String orgId,
-            @RequestParam(required = false, defaultValue = "1") Integer offset,
-            @RequestParam(required = false, defaultValue = "10") Integer size) {
-        ResponseEntity<SealResultList> responseEntity;
-        try {
-            EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
-            SealResultList sealResultList = econtractSealService.getOfficialSeals(econtractToken, orgId, offset, size);
+            SealResultList sealResultList = econtractSealService.getSeals(accountType, econtractToken, accountId, offset, size);
             responseEntity = new ResponseEntity<>(sealResultList, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("getOfficialSeals error: " + e.getMessage());

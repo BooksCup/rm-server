@@ -130,60 +130,20 @@ public class EcontractSealServiceImpl extends BaseService implements EcontractSe
     }
 
     /**
-     * 查询个人所有印章
+     * 查询个人/机构所有印章
      *
+     * @param accountType    账号类型 "0":个人账号  "1":机构账号
      * @param econtractToken token
-     * @param accountId      账号ID
+     * @param accountId      个人/机构账号ID
      * @param offset         分页起始位置
      * @param size           单页数量
-     * @return 个人所有印章
+     * @return 个人/机构所有印章
      */
     @Override
-    public SealResultList getPersonalSeals(EcontractToken econtractToken, String accountId, Integer offset, Integer size) {
+    public SealResultList getSeals(String accountType, EcontractToken econtractToken, String accountId, Integer offset, Integer size) {
         String eSignHost = Constant.E_SIGN_BASE_URL;
-        String path = "/v1/accounts/" + accountId + "/seals";
-
-        // 消息头，主要包含鉴权信息
-        Map<String, String> headerMap = createHeader(econtractToken);
-
-        // 查询参数
-        Map<String, String> queryMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
-        queryMap.put("offset", String.valueOf(offset));
-        queryMap.put("size", String.valueOf(size));
-
-        try {
-            HttpResponse response = HttpUtil.doGet(eSignHost, path, headerMap, queryMap);
-            String result = EntityUtils.toString(response.getEntity(), "utf-8");
-            logger.info("result: " + result);
-
-            TypeReference<ApiBaseResult<SealResultList>> typeReference = new TypeReference<ApiBaseResult<SealResultList>>() {
-            };
-            ApiBaseResult<SealResultList> apiBaseResult = JSON.parseObject(result, typeReference);
-            logger.info("code: " + apiBaseResult.getCode());
-            logger.info("message: " + apiBaseResult.getMessage());
-            if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
-                return apiBaseResult.getData();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new SealResultList();
-    }
-
-    /**
-     * 查询机构所有印章
-     *
-     * @param econtractToken token
-     * @param orgId          机构ID
-     * @param offset         分页起始位置
-     * @param size           单页数量
-     * @return 机构所有印章
-     */
-    @Override
-    public SealResultList getOfficialSeals(EcontractToken econtractToken, String orgId, Integer offset, Integer size) {
-        String eSignHost = Constant.E_SIGN_BASE_URL;
-        String path = "/v1/organizations/" + orgId + "/seals";
+        String path = accountType == Constant.SEAL_ACCOUNT_TYPE_PERSONAL ?
+                "/v1/accounts/" + accountId + "/seals" : "/v1/organizations/" + accountId + "/seals";
 
         // 消息头，主要包含鉴权信息
         Map<String, String> headerMap = createHeader(econtractToken);
