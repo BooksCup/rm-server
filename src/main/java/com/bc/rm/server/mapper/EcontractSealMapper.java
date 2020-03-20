@@ -15,4 +15,10 @@ public interface EcontractSealMapper {
      * @param econtractSeal 印章
      */
     void addEcontractSeal(EcontractSeal econtractSeal);
+
+    /**
+     * 根据印章ID删除印章
+     * @param sealId 印章ID
+     */
+    void deleteEcontractSealBySealId(String sealId);
 }

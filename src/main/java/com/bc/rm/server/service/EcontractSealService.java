@@ -39,4 +39,15 @@ public interface EcontractSealService {
      * @return 个人/机构所有印章
      */
     SealResultList getSeals(String accountType, EcontractToken econtractToken, String accountId, Integer offset, Integer size);
+
+    /**
+     * 删除个人/企业印章
+     *
+     * @param accountType    账号类型 "0":个人账号  "1":机构账号
+     * @param econtractToken token
+     * @param accountId      个人/机构账号ID
+     * @param sealId         印章ID
+     * @return true:删除成功 false:删除失败
+     */
+    boolean deleteSeal(String accountType, EcontractToken econtractToken, String accountId, String sealId);
 }

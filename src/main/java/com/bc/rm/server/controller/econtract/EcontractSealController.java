@@ -3,6 +3,7 @@ package com.bc.rm.server.controller.econtract;
 import com.bc.rm.server.entity.econtract.EcontractSeal;
 import com.bc.rm.server.entity.econtract.EcontractToken;
 import com.bc.rm.server.entity.econtract.result.SealResultList;
+import com.bc.rm.server.enums.ResponseMsg;
 import com.bc.rm.server.service.EcontractSealService;
 import com.bc.rm.server.service.EcontractTokenService;
 import io.swagger.annotations.ApiOperation;
@@ -122,9 +123,9 @@ public class EcontractSealController {
      * @param size        单页数量
      * @return 个人/机构所有印章
      */
-    @ApiOperation(value = "查询机构所有印章", notes = "查询机构所有印章")
-    @GetMapping(value = "/officialtemplate")
-    public ResponseEntity<SealResultList> getOfficialSeals(
+    @ApiOperation(value = "查询个人/机构所有印章", notes = "查询个人/机构所有印章")
+    @GetMapping(value = "")
+    public ResponseEntity<SealResultList> getSeals(
             @RequestParam String accountType,
             @RequestParam String accountId,
             @RequestParam(required = false, defaultValue = "1") Integer offset,
@@ -137,6 +138,34 @@ public class EcontractSealController {
         } catch (Exception e) {
             logger.error("getOfficialSeals error: " + e.getMessage());
             responseEntity = new ResponseEntity<>(new SealResultList(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
+    /**
+     * 删除个人/企业印章
+     *
+     * @param accountType 账号类型 "0":个人账号  "1":机构账号
+     * @param sealId      印章ID
+     * @param accountId   个人/机构账号ID
+     * @return ResponseEntity<String>
+     */
+    @ApiOperation(value = "删除个人/企业印章", notes = "删除个人/企业印章")
+    @DeleteMapping(value = "/{sealId}")
+    public ResponseEntity<String> deleteSeal(
+            @RequestParam String accountType,
+            @PathVariable String sealId,
+            @RequestParam String accountId) {
+        ResponseEntity<String> responseEntity;
+        try {
+            EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
+            // 调用api删除个人/企业印章
+            econtractSealService.deleteSeal(accountType, econtractToken, accountId, sealId);
+            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_SEAL_SUCCESS.getResponseCode(),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_SEAL_ERROR.getResponseCode(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }

@@ -47,4 +47,9 @@
         )
     </insert>
 
+    <delete id="deleteEcontractSealBySealId" parameterType="String">
+        delete from t_e_contract_seal
+        where seal_id = #{sealId}
+    </delete>
+
 </mapper>

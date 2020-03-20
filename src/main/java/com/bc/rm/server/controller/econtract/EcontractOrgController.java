@@ -168,7 +168,7 @@ public class EcontractOrgController {
             EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
             // 调用api删除电子合同个人账号
             econtractOrgService.deleteOrgByThirdPartyUserId(econtractToken, thirdPartyUserId);
-            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ORG_ERROR.getResponseCode(),
+            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ORG_SUCCESS.getResponseCode(),
                     HttpStatus.OK);
         } catch (Exception e) {
             responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ORG_ERROR.getResponseCode(),

@@ -174,6 +174,52 @@ public class EcontractSealServiceImpl extends BaseService implements EcontractSe
     }
 
     /**
+     * 删除个人/企业印章
+     *
+     * @param accountType    账号类型 "0":个人账号  "1":机构账号
+     * @param econtractToken token
+     * @param accountId      个人/机构账号ID
+     * @param sealId         印章ID
+     * @return true:删除成功 false:删除失败
+     */
+    @Override
+    public boolean deleteSeal(String accountType, EcontractToken econtractToken, String accountId, String sealId) {
+        boolean deleteFlag;
+        String eSignHost = Constant.E_SIGN_BASE_URL;
+        String path = accountType == Constant.SEAL_ACCOUNT_TYPE_PERSONAL ?
+                "/v1/accounts/" + accountId + "/seals/" + sealId : "/v1/organizations/" + accountId + "/seals/" + sealId;
+
+        // 消息头，主要包含鉴权信息
+        Map<String, String> headerMap = createHeader(econtractToken);
+
+        // 查询参数
+        Map<String, String> queryMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+
+        try {
+            HttpResponse response = HttpUtil.doGet(eSignHost, path, headerMap, queryMap);
+            String result = EntityUtils.toString(response.getEntity(), "utf-8");
+            logger.info("result: " + result);
+
+            TypeReference<ApiBaseResult<?>> typeReference = new TypeReference<ApiBaseResult<?>>() {
+            };
+            ApiBaseResult<?> apiBaseResult = JSON.parseObject(result, typeReference);
+            logger.info("code: " + apiBaseResult.getCode());
+            logger.info("message: " + apiBaseResult.getMessage());
+            if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
+                deleteFlag = true;
+                econtractSealMapper.deleteEcontractSealBySealId(sealId);
+            } else {
+                deleteFlag = false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            deleteFlag = false;
+        }
+        return deleteFlag;
+    }
+
+    /**
      * 处理印章api返回
      *
      * @param apiBaseResult api返回
