@@ -6,6 +6,7 @@ import com.bc.rm.server.entity.econtract.result.Account;
 import com.bc.rm.server.enums.ResponseMsg;
 import com.bc.rm.server.service.EcontractAccountService;
 import com.bc.rm.server.service.EcontractTokenService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -57,6 +58,7 @@ public class EcontractAccountController {
         ResponseEntity<EcontractAccount> responseEntity;
         EcontractAccount econtractAccount = new EcontractAccount(
                 thirdPartyUserId, name, idType, idNumber, mobile, email);
+        logger.info("[addEcontractAccount], data: " + econtractAccount);
         try {
             EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
             econtractAccount = econtractAccountService.createEcontractAccount(econtractToken, econtractAccount);
@@ -232,5 +234,22 @@ public class EcontractAccountController {
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
+    }
+
+    /**
+     * 获取电子合同个人账户列表
+     *
+     * @param page  当前分页
+     * @param limit 每个分页大小
+     * @return ResponseEntity
+     */
+    @ApiOperation(value = "获取电子合同个人账户列表", notes = "获取电子合同个人账户列表")
+    @GetMapping(value = "")
+    public ResponseEntity<PageInfo<EcontractAccount>> getUserList(
+            @RequestParam Integer page,
+            @RequestParam Integer limit) {
+        logger.info("page: " + page + ", limit:" + limit);
+        PageInfo<EcontractAccount> pageInfo = econtractAccountService.getEcontractAccountListByPageInfo(page, limit);
+        return new ResponseEntity<>(pageInfo, HttpStatus.OK);
     }
 }

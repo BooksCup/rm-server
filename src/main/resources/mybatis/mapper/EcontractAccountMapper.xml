@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.bc.rm.server.mapper.EcontractAccountMapper">
 
+    <resultMap id="EcontractAccount" type="com.bc.rm.server.entity.econtract.EcontractAccount">
+        <id column="account_id" property="id" jdbcType="VARCHAR"/>
+        <result column="account_third_party_user_id" property="thirdPartyUserId" jdbcType="VARCHAR"/>
+        <result column="account_name" property="name" jdbcType="VARCHAR"/>
+        <result column="account_id_type" property="idType" jdbcType="VARCHAR"/>
+        <result column="account_id_number" property="idNumber" jdbcType="VARCHAR"/>
+        <result column="account_mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="account_mail" property="email" jdbcType="VARCHAR"/>
+        <result column="account_create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="account_modify_time" property="modifyTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
     <insert id="addEcontractAccount" parameterType="com.bc.rm.server.entity.econtract.EcontractAccount">
         insert into t_e_contract_account
         (
@@ -70,4 +82,11 @@
         account_sign_pwd = #{password}
         where account_id = #{accountId}
     </update>
+
+    <select id="getEcontractAccountListByParams" resultMap="EcontractAccount">
+        select *
+        from t_e_contract_account
+        where 1 = 1
+        order by account_create_time desc
+    </select>
 </mapper>

@@ -13,6 +13,8 @@ public class EcontractAccount {
     private String idNumber;
     private String mobile;
     private String email;
+    private String createTime;
+    private String modifyTime;
 
     /**
      * 是否修改成功
@@ -118,5 +120,39 @@ public class EcontractAccount {
 
     public void setApiResultMessage(String apiResultMessage) {
         this.apiResultMessage = apiResultMessage;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(String modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
+    @Override
+    public String toString() {
+        return "EcontractAccount{" +
+                "id='" + id + '\'' +
+                ", thirdPartyUserId='" + thirdPartyUserId + '\'' +
+                ", name='" + name + '\'' +
+                ", idType='" + idType + '\'' +
+                ", idNumber='" + idNumber + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", email='" + email + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", modifyTime='" + modifyTime + '\'' +
+                ", successFlag=" + successFlag +
+                ", apiResultCode='" + apiResultCode + '\'' +
+                ", apiResultMessage='" + apiResultMessage + '\'' +
+                '}';
     }
 }

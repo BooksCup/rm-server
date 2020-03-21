@@ -2,6 +2,7 @@ package com.bc.rm.server.mapper;
 
 import com.bc.rm.server.entity.econtract.EcontractAccount;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,4 +45,12 @@ public interface EcontractAccountMapper {
      * @param paramMap 参数map
      */
     void updateSignPwd(Map<String, String> paramMap);
+
+    /**
+     * 获取电子合同个人账户列表
+     *
+     * @param paramMap 参数map
+     * @return 电子合同个人账户列表
+     */
+    List<EcontractAccount> getEcontractAccountListByParams(Map<String, String> paramMap);
 }

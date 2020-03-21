@@ -11,6 +11,8 @@ import com.bc.rm.server.mapper.EcontractAccountMapper;
 import com.bc.rm.server.service.BaseService;
 import com.bc.rm.server.service.EcontractAccountService;
 import com.bc.rm.server.util.HttpUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -324,5 +327,23 @@ public class EcontractAccountServiceImpl extends BaseService implements Econtrac
             setFlag = false;
         }
         return setFlag;
+    }
+
+    /**
+     * 获取电子合同个人账户列表
+     *
+     * @param pageNum  当前分页
+     * @param pageSize 每个分页大小
+     * @return 电子合同个人账户分页列表
+     */
+    @Override
+    public PageInfo<EcontractAccount> getEcontractAccountListByPageInfo(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+
+        Map<String, String> paramMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+
+        List<EcontractAccount> econtractAccountList =
+                econtractAccountMapper.getEcontractAccountListByParams(paramMap);
+        return new PageInfo<>(econtractAccountList);
     }
 }

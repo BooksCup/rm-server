@@ -3,6 +3,7 @@ package com.bc.rm.server.service;
 import com.bc.rm.server.entity.econtract.EcontractAccount;
 import com.bc.rm.server.entity.econtract.EcontractToken;
 import com.bc.rm.server.entity.econtract.result.Account;
+import com.github.pagehelper.PageInfo;
 
 /**
  * 电子合同个人账号
@@ -73,4 +74,13 @@ public interface EcontractAccountService {
      * @return true:设置成功  false:设置失败
      */
     boolean setSignPwd(EcontractToken econtractToken, String accountId, String password);
+
+    /**
+     * 获取电子合同个人账户列表
+     *
+     * @param pageNum  当前分页
+     * @param pageSize 每个分页大小
+     * @return 电子合同个人账户分页列表
+     */
+    PageInfo<EcontractAccount> getEcontractAccountListByPageInfo(int pageNum, int pageSize);
 }
