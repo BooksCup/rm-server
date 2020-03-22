@@ -171,6 +171,7 @@ public class EcontractAccountController {
     public ResponseEntity<String> deleteAccountByAccountId(@PathVariable String accountId) {
         ResponseEntity<String> responseEntity;
         try {
+            logger.info("[deleteAccountByAccountId] accountId: " + accountId);
             EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
             // 调用api删除电子合同个人账号
             econtractAccountService.deleteAccountByAccountId(econtractToken, accountId);
@@ -247,7 +248,7 @@ public class EcontractAccountController {
      */
     @ApiOperation(value = "获取电子合同个人账户列表", notes = "获取电子合同个人账户列表")
     @GetMapping(value = "")
-    public ResponseEntity<PageInfo<EcontractAccount>> getUserList(
+    public ResponseEntity<PageInfo<EcontractAccount>> getEcontractAccountList(
             @RequestParam Integer page,
             @RequestParam Integer limit) {
         logger.info("page: " + page + ", limit:" + limit);
