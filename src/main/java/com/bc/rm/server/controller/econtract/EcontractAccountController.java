@@ -6,6 +6,7 @@ import com.bc.rm.server.entity.econtract.result.Account;
 import com.bc.rm.server.enums.ResponseMsg;
 import com.bc.rm.server.service.EcontractAccountService;
 import com.bc.rm.server.service.EcontractTokenService;
+import com.bc.rm.server.util.CommonUtil;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -58,6 +59,7 @@ public class EcontractAccountController {
         ResponseEntity<EcontractAccount> responseEntity;
         EcontractAccount econtractAccount = new EcontractAccount(
                 thirdPartyUserId, name, idType, idNumber, mobile, email);
+        econtractAccount.setCreateTime(CommonUtil.now());
         logger.info("[addEcontractAccount], data: " + econtractAccount);
         try {
             EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();

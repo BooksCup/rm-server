@@ -36,7 +36,7 @@
             #{idNumber},
             #{mobile},
             #{email},
-            now(),
+            #{createTime},
             now()
         )
     </insert>
