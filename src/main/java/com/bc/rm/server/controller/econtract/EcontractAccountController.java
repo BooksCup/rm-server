@@ -102,12 +102,19 @@ public class EcontractAccountController {
         ResponseEntity<EcontractAccount> responseEntity;
         EcontractAccount econtractAccount = new EcontractAccount(
                 thirdPartyUserId, name, idType, idNumber, mobile, email);
+        logger.info("[updateEcontractAccount], data: " + econtractAccount);
         try {
             econtractAccount.setId(accountId);
             EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
-            econtractAccount = econtractAccountService.updateEcontractAccount(econtractToken, econtractAccount);
             // 调用api修改电子合同个人账号
-            responseEntity = new ResponseEntity<>(econtractAccount, HttpStatus.OK);
+            econtractAccount = econtractAccountService.updateEcontractAccount(econtractToken, econtractAccount);
+            if (econtractAccount.isSuccessFlag()) {
+                // 修改成功
+                responseEntity = new ResponseEntity<>(econtractAccount, HttpStatus.OK);
+            } else {
+                // 修改失败
+                responseEntity = new ResponseEntity<>(econtractAccount, HttpStatus.BAD_REQUEST);
+            }
         } catch (Exception e) {
             logger.error("updateEcontractAccount error: " + e.getMessage());
             responseEntity = new ResponseEntity<>(econtractAccount, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -251,7 +258,7 @@ public class EcontractAccountController {
     public ResponseEntity<PageInfo<EcontractAccount>> getEcontractAccountList(
             @RequestParam Integer page,
             @RequestParam Integer limit) {
-        logger.info("page: " + page + ", limit:" + limit);
+        logger.info("[getEcontractAccountList] page: " + page + ", limit:" + limit);
         PageInfo<EcontractAccount> pageInfo = econtractAccountService.getEcontractAccountListByPageInfo(page, limit);
         return new ResponseEntity<>(pageInfo, HttpStatus.OK);
     }

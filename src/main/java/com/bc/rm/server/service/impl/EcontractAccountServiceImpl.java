@@ -91,7 +91,7 @@ public class EcontractAccountServiceImpl extends BaseService implements Econtrac
      * @return 个人账号
      */
     @Override
-    public EcontractAccount updateEcontractAccount(EcontractToken econtractToken, EcontractAccount econtractAccount) {
+    public EcontractAccount updateEcontractAccount(EcontractToken econtractToken, EcontractAccount econtractAccount) throws Exception {
         String eSignHost = Constant.E_SIGN_BASE_URL;
         String path = "/v1/accounts/" + econtractAccount.getId();
 
@@ -105,26 +105,24 @@ public class EcontractAccountServiceImpl extends BaseService implements Econtrac
         Map<String, String> bodyMap = createAccountBody(econtractAccount);
         String body = JSON.toJSONString(bodyMap);
 
-        try {
-            HttpResponse response = HttpUtil.doPut(eSignHost, path, headerMap, queryMap, body);
-            String result = EntityUtils.toString(response.getEntity(), "utf-8");
-            logger.info("result: " + result);
+        HttpResponse response = HttpUtil.doPut(eSignHost, path, headerMap, queryMap, body);
+        String result = EntityUtils.toString(response.getEntity(), "utf-8");
+        logger.info("result: " + result);
 
-            TypeReference<ApiBaseResult<Account>> typeReference = new TypeReference<ApiBaseResult<Account>>() {
-            };
-            ApiBaseResult<Account> apiBaseResult = JSON.parseObject(result, typeReference);
-            logger.info("code: " + apiBaseResult.getCode());
-            logger.info("message: " + apiBaseResult.getMessage());
+        TypeReference<ApiBaseResult<Account>> typeReference = new TypeReference<ApiBaseResult<Account>>() {
+        };
+        ApiBaseResult<Account> apiBaseResult = JSON.parseObject(result, typeReference);
+        logger.info("code: " + apiBaseResult.getCode());
+        logger.info("message: " + apiBaseResult.getMessage());
 
-            econtractAccount.setApiResultCode(apiBaseResult.getCode());
-            econtractAccount.setApiResultMessage(apiBaseResult.getMessage());
+        econtractAccount.setApiResultCode(apiBaseResult.getCode());
+        econtractAccount.setApiResultMessage(apiBaseResult.getMessage());
 
-            if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
-                econtractAccount.setSuccessFlag(true);
-                econtractAccountMapper.updateEcontractAccount(econtractAccount);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
+            econtractAccount.setSuccessFlag(true);
+            econtractAccountMapper.updateEcontractAccount(econtractAccount);
+        } else {
+            econtractAccount.setSuccessFlag(false);
         }
         return econtractAccount;
     }

@@ -27,7 +27,7 @@ public interface EcontractAccountService {
      * @param econtractAccount 个人账号
      * @return 个人账号
      */
-    EcontractAccount updateEcontractAccount(EcontractToken econtractToken, EcontractAccount econtractAccount);
+    EcontractAccount updateEcontractAccount(EcontractToken econtractToken, EcontractAccount econtractAccount) throws Exception;
 
     /**
      * 查询个人账号(按照账号ID查询)
