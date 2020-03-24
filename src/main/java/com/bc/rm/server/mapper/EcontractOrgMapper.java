@@ -1,7 +1,11 @@
 package com.bc.rm.server.mapper;
 
+import com.bc.rm.server.entity.econtract.EcontractAccount;
 import com.bc.rm.server.entity.econtract.EcontractOrg;
 import com.bc.rm.server.entity.econtract.EcontractToken;
+
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -37,4 +41,12 @@ public interface EcontractOrgMapper {
      * @param thirdPartyUserId 第三方机构ID
      */
     void deleteOrgByThirdPartyUserId(String thirdPartyUserId);
+
+    /**
+     * 获取电子合同机构账户列表
+     *
+     * @param paramMap 参数map
+     * @return 电子合同机构账户列表
+     */
+    List<EcontractOrg> getEcontractOrgListByParams(Map<String, String> paramMap);
 }

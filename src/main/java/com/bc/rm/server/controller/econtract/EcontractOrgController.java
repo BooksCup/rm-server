@@ -5,6 +5,7 @@ import com.bc.rm.server.entity.econtract.EcontractToken;
 import com.bc.rm.server.enums.ResponseMsg;
 import com.bc.rm.server.service.EcontractOrgService;
 import com.bc.rm.server.service.EcontractTokenService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -175,5 +176,22 @@ public class EcontractOrgController {
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
+    }
+
+    /**
+     * 获取电子合同机构账户列表
+     *
+     * @param page  当前分页
+     * @param limit 每个分页大小
+     * @return ResponseEntity
+     */
+    @ApiOperation(value = "获取电子合同机构账户列表", notes = "获取电子合同机构账户列表")
+    @GetMapping(value = "")
+    public ResponseEntity<PageInfo<EcontractOrg>> getEcontractOrgList(
+            @RequestParam Integer page,
+            @RequestParam Integer limit) {
+        logger.info("[getEcontractOrgList] page: " + page + ", limit:" + limit);
+        PageInfo<EcontractOrg> pageInfo = econtractOrgService.getEcontractOrgListByPageInfo(page, limit);
+        return new ResponseEntity<>(pageInfo, HttpStatus.OK);
     }
 }

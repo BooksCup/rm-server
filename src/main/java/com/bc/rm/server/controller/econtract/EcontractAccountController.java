@@ -181,9 +181,14 @@ public class EcontractAccountController {
             logger.info("[deleteAccountByAccountId] accountId: " + accountId);
             EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
             // 调用api删除电子合同个人账号
-            econtractAccountService.deleteAccountByAccountId(econtractToken, accountId);
-            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ACCOUNT_SUCCESS.getResponseCode(),
-                    HttpStatus.OK);
+            boolean deleteFlag = econtractAccountService.deleteAccountByAccountId(econtractToken, accountId);
+            if (deleteFlag) {
+                responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ACCOUNT_SUCCESS.getResponseCode(),
+                        HttpStatus.OK);
+            } else {
+                responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ACCOUNT_ERROR.getResponseCode(),
+                        HttpStatus.BAD_REQUEST);
+            }
         } catch (Exception e) {
             responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ACCOUNT_ERROR.getResponseCode(),
                     HttpStatus.INTERNAL_SERVER_ERROR);

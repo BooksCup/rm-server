@@ -2,6 +2,7 @@ package com.bc.rm.server.service;
 
 import com.bc.rm.server.entity.econtract.EcontractOrg;
 import com.bc.rm.server.entity.econtract.EcontractToken;
+import com.github.pagehelper.PageInfo;
 
 /**
  * 电子合同机构
@@ -54,4 +55,13 @@ public interface EcontractOrgService {
      * @return true:删除成功 false:删除失败
      */
     boolean deleteOrgByThirdPartyUserId(EcontractToken econtractToken, String thirdPartyUserId);
+
+    /**
+     * 获取电子合同机构账户列表
+     *
+     * @param pageNum  当前分页
+     * @param pageSize 每个分页大小
+     * @return 电子合同机构账户分页列表
+     */
+    PageInfo<EcontractOrg> getEcontractOrgListByPageInfo(int pageNum, int pageSize);
 }
