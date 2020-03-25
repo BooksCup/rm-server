@@ -98,11 +98,18 @@ public class EcontractOrgController {
             @RequestParam String orgLegalName) {
         ResponseEntity<EcontractOrg> responseEntity;
         EcontractOrg econtractOrg = new EcontractOrg(orgId, name, idType, idNumber, orgLegalIdNumber, orgLegalName);
+        logger.info("[updateEcontractOrgByOrgId], data: " + econtractOrg);
         try {
             EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
-            econtractOrg = econtractOrgService.updateEcontractOrgByOrgId(econtractToken, econtractOrg);
             // 调用api修改电子合同个人账号
-            responseEntity = new ResponseEntity<>(econtractOrg, HttpStatus.OK);
+            econtractOrg = econtractOrgService.updateEcontractOrgByOrgId(econtractToken, econtractOrg);
+            if (econtractOrg.isSuccessFlag()) {
+                // 修改成功
+                responseEntity = new ResponseEntity<>(econtractOrg, HttpStatus.OK);
+            } else {
+                // 修改失败
+                responseEntity = new ResponseEntity<>(econtractOrg, HttpStatus.BAD_REQUEST);
+            }
         } catch (Exception e) {
             logger.error("updateEcontractOrgByOrgId error: " + e.getMessage());
             responseEntity = new ResponseEntity<>(econtractOrg, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -140,14 +147,20 @@ public class EcontractOrgController {
      */
     @ApiOperation(value = "删除/注销机构账号(按照账号ID删除)", notes = "删除/注销机构账号(按照账号ID删除)")
     @DeleteMapping(value = "/{orgId}")
-    public ResponseEntity<String> deleteAccountByAccountId(@PathVariable String orgId) {
+    public ResponseEntity<String> deleteOrgByOrgId(@PathVariable String orgId) {
+        logger.info("[deleteOrgByAccountId] orgId: " + orgId);
         ResponseEntity<String> responseEntity;
         try {
             EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
             // 调用api删除电子合同机构账号
-            econtractOrgService.deleteOrgByOrgId(econtractToken, orgId);
-            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ORG_SUCCESS.getResponseCode(),
-                    HttpStatus.OK);
+            boolean deleteFlag = econtractOrgService.deleteOrgByOrgId(econtractToken, orgId);
+            if (deleteFlag) {
+                responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ORG_SUCCESS.getResponseCode(),
+                        HttpStatus.OK);
+            } else {
+                responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ORG_ERROR.getResponseCode(),
+                        HttpStatus.BAD_REQUEST);
+            }
         } catch (Exception e) {
             responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_E_CONTRACT_ORG_ERROR.getResponseCode(),
                     HttpStatus.INTERNAL_SERVER_ERROR);

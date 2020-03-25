@@ -17,6 +17,11 @@ public class EcontractOrg {
     private String createTime;
     private String modifyTime;
 
+    /**
+     * 是否操作成功
+     */
+    private boolean successFlag = false;
+
     private String apiResultCode;
     private String apiResultMessage;
 
@@ -133,6 +138,14 @@ public class EcontractOrg {
 
     public void setModifyTime(String modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public boolean isSuccessFlag() {
+        return successFlag;
+    }
+
+    public void setSuccessFlag(boolean successFlag) {
+        this.successFlag = successFlag;
     }
 
     public String getApiResultCode() {

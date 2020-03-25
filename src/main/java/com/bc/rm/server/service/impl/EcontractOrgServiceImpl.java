@@ -122,7 +122,10 @@ public class EcontractOrgServiceImpl extends BaseService implements EcontractOrg
             econtractOrg.setApiResultMessage(apiBaseResult.getMessage());
 
             if (Constant.E_CONTRACT_SUCCESS_RESULT_CODE.equals(apiBaseResult.getCode())) {
+                econtractOrg.setSuccessFlag(true);
                 econtractOrgMapper.updateEcontractOrgByOrgId(econtractOrg);
+            } else {
+                econtractOrg.setSuccessFlag(false);
             }
         } catch (Exception e) {
             e.printStackTrace();
