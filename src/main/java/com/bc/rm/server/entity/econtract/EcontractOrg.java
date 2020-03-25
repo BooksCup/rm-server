@@ -150,4 +150,22 @@ public class EcontractOrg {
     public void setApiResultMessage(String apiResultMessage) {
         this.apiResultMessage = apiResultMessage;
     }
+
+    @Override
+    public String toString() {
+        return "EcontractOrg{" +
+                "orgId='" + orgId + '\'' +
+                ", thirdPartyUserId='" + thirdPartyUserId + '\'' +
+                ", creator='" + creator + '\'' +
+                ", name='" + name + '\'' +
+                ", idType='" + idType + '\'' +
+                ", idNumber='" + idNumber + '\'' +
+                ", orgLegalIdNumber='" + orgLegalIdNumber + '\'' +
+                ", orgLegalName='" + orgLegalName + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", modifyTime='" + modifyTime + '\'' +
+                ", apiResultCode='" + apiResultCode + '\'' +
+                ", apiResultMessage='" + apiResultMessage + '\'' +
+                '}';
+    }
 }

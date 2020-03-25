@@ -53,4 +53,12 @@ public interface EcontractAccountMapper {
      * @return 电子合同个人账户列表
      */
     List<EcontractAccount> getEcontractAccountListByParams(Map<String, String> paramMap);
+
+    /**
+     * 查询电子合同个人账户列表
+     *
+     * @param keyword 关键字
+     * @return 电子合同个人账户列表
+     */
+    List<EcontractAccount> searchEcontractAccount(String keyword);
 }

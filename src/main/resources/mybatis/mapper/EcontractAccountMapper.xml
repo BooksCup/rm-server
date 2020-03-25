@@ -89,4 +89,11 @@
         where 1 = 1
         order by account_create_time desc
     </select>
+
+    <select id="searchEcontractAccount" resultMap="EcontractAccount">
+        select *
+        from t_e_contract_account
+        where account_name like "%"#{keyword}"%"
+        order by account_create_time desc
+    </select>
 </mapper>

@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 电子合同个人账号
@@ -266,5 +267,20 @@ public class EcontractAccountController {
         logger.info("[getEcontractAccountList] page: " + page + ", limit:" + limit);
         PageInfo<EcontractAccount> pageInfo = econtractAccountService.getEcontractAccountListByPageInfo(page, limit);
         return new ResponseEntity<>(pageInfo, HttpStatus.OK);
+    }
+
+    /**
+     * 查询个人账户列表
+     *
+     * @param keyword 关键字
+     * @return ResponseEntity
+     */
+    @ApiOperation(value = "查询个人账户列表", notes = "查询个人账户列表")
+    @GetMapping(value = "/searchAccount")
+    public ResponseEntity<List<EcontractAccount>> searchEcontractAccount(
+            @RequestParam String keyword) {
+        logger.info("[searchEcontractAccount] keyword: " + keyword);
+        List<EcontractAccount> econtractAccountList = econtractAccountService.searchEcontractAccount(keyword);
+        return new ResponseEntity<>(econtractAccountList, HttpStatus.OK);
     }
 }

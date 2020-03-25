@@ -5,6 +5,8 @@ import com.bc.rm.server.entity.econtract.EcontractToken;
 import com.bc.rm.server.entity.econtract.result.Account;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
+
 /**
  * 电子合同个人账号
  *
@@ -83,4 +85,12 @@ public interface EcontractAccountService {
      * @return 电子合同个人账户分页列表
      */
     PageInfo<EcontractAccount> getEcontractAccountListByPageInfo(int pageNum, int pageSize);
+
+    /**
+     * 查询电子合同个人账户列表
+     *
+     * @param keyword 关键字
+     * @return 电子合同个人账户列表
+     */
+    List<EcontractAccount> searchEcontractAccount(String keyword);
 }

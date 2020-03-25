@@ -60,7 +60,7 @@ public class EcontractOrgController {
 
         EcontractOrg econtractOrg = new EcontractOrg(
                 thirdPartyUserId, creator, name, idType, idNumber, orgLegalIdNumber, orgLegalName);
-
+        logger.info("[addEcontractOrg], data: " + econtractOrg);
         try {
             EcontractToken econtractToken = econtractTokenService.getAccessTokenFromDB();
             econtractOrg = econtractOrgService.createEcontractOrg(econtractToken, econtractOrg);

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.bc.rm.server.cons.Constant;
 import com.bc.rm.server.entity.econtract.EcontractAccount;
+import com.bc.rm.server.entity.econtract.EcontractOrg;
 import com.bc.rm.server.entity.econtract.EcontractToken;
 import com.bc.rm.server.entity.econtract.result.Account;
 import com.bc.rm.server.entity.econtract.result.ApiBaseResult;
@@ -343,5 +344,16 @@ public class EcontractAccountServiceImpl extends BaseService implements Econtrac
         List<EcontractAccount> econtractAccountList =
                 econtractAccountMapper.getEcontractAccountListByParams(paramMap);
         return new PageInfo<>(econtractAccountList);
+    }
+
+    /**
+     * 查询电子合同个人账户列表
+     *
+     * @param keyword 关键字
+     * @return 电子合同个人账户列表
+     */
+    @Override
+    public List<EcontractAccount> searchEcontractAccount(String keyword) {
+        return econtractAccountMapper.searchEcontractAccount(keyword);
     }
 }
